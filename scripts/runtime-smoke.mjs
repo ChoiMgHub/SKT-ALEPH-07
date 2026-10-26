@@ -18,6 +18,11 @@ try {
     const sql=readFileSync(new URL('../'+file,import.meta.url),'utf8').replace(/--[^\n]*/g,'');
     for(const part of sql.split(';').filter(x=>x.trim())) await db.prepare(part).run();
   }
+  for(const [path,needle] of [['/one-day-demo.html','실제 5일 사용 증거가 아닙니다.'],['/study-demo.js','addDemoEntry'],['/study-demo-model.js','one-day-simulation'],['/verification.html','격리된 실행 환경의 증거'],['/verification.json','isolated-workerd-d1']]) {
+    const asset=await mf.dispatchFetch('https://example.test'+path);
+    assert.equal(asset.status,200,path);assert.ok((await asset.text()).includes(needle),path);
+  }
+  console.log('workerd: public simulation, ES modules and redacted evidence assets served without login.');
   const password=randomBytes(24).toString('base64url');
   const send=(path,data,cookie='')=>mf.dispatchFetch('https://example.test'+path,{method:data?'POST':'GET',redirect:'manual',headers:{'content-type':'application/json','x-requested-with':'aleph-diary',cookie},...(data?{body:JSON.stringify(data)}:{})});
   const created=await send('/api/auth/signup',{username:'runtime_user',password});assert.equal(created.status,201);

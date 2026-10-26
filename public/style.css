@@ -11,3 +11,8 @@
 #study button:disabled { opacity: .55; cursor: not-allowed; }
 #study-config-view p, #study-change-view p { overflow-wrap: anywhere; }
 #study-records .item + .item { margin-top: 10px; }
+pre { white-space:pre-wrap; overflow-wrap:anywhere; font-size:.8rem; }
+details.panel { margin-bottom:14px; }
+details.panel summary { cursor:pointer; font-weight:700; }
+#demo-entry button:disabled { opacity:.55; cursor:not-allowed; }
+#demo-rule p, #demo-records p { overflow-wrap:anywhere; }

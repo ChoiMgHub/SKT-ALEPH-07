@@ -1,15 +1,16 @@
-import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const read = path => readFileSync(resolve(root, path), 'utf8');
-const assets = {
-  '/': { type: 'text/html; charset=utf-8', body: read('public/index.html') },
-  '/index.html': { type: 'text/html; charset=utf-8', body: read('public/index.html') },
-  '/style.css': { type: 'text/css; charset=utf-8', body: read('public/style.css') },
-  '/app.js': { type: 'application/javascript; charset=utf-8', body: read('public/app.js') }
-};
+const assets = {};
+const types={html:'text/html',css:'text/css',js:'application/javascript',json:'application/json'};
+for(const name of readdirSync(resolve(root,'public'))) {
+  const ext=name.split('.').at(-1);
+  if(types[ext])assets['/'+name]={type:types[ext]+'; charset=utf-8',body:read('public/'+name)};
+}
+assets['/']=assets['/index.html'];
 const staticCode = `const STATIC_ASSETS = ${JSON.stringify(assets)};\n` +
   `function serveAsset(request) { const path = new URL(request.url).pathname; const asset = STATIC_ASSETS[path];` +
   ` if (!asset) return new Response('찾을 수 없습니다.', {status:404});` +

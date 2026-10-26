@@ -1,0 +1,1194 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>인증 검증 증거 · 플랜두씨</title><link rel="stylesheet" href="/style.css"></head><body><div class="shell"><header class="hero"><div><p class="eyebrow">SKT ALEPH · VERIFICATION</p><h1>로그인 없이 읽는 인증 검증 증거</h1></div></header><nav class="steps"><a href="/">내 다이어리</a><a href="/one-day-demo.html">하루 모의 체험</a><a href="/verification.json" download>익명화한 검증 JSON</a></nav><aside class="notice"><strong>격리된 실행 환경의 증거</strong><span>AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청·응답입니다. example.test는 시험 주소이며 공개 Cloudflare 배포 점검이나 사용자의 실제 사용 기록이 아닙니다.</span></aside><main><section class="section"><div class="panel"><h2>검증 결과</h2><p>49개 점검 통과 · 임시 계정 2/2개 정리 완료</p><p>실행 시각 2026-10-26T07:49:56.379Z ~ 2026-10-26T07:49:57.498Z (UTC)</p><p>비밀번호·쿠키·세션 원문·pepper가 결과에 없는지 검사했습니다. 계정명·자료 ID는 일관된 익명 표지로 바꾸고 저장 해시·내용 해시는 공개하지 않았습니다. 원본은 .private/auth-evidence-ai.json에 비공개로 보관합니다.</p><p>공개 배포에서 사용자가 실행한 원격 49개 PASS와는 별도입니다. 그 원격 상세 JSON은 아직 이 페이지에 포함하지 않았습니다. 실제 5일 사용 조건도 미충족입니다.</p></div><details class="panel"><summary>① 가입·로그인·중복·동일 실패 문구</summary><pre>[
+  {
+    &quot;label&quot;: &quot;A 가입&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/signup&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[temporary_A]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 201,
+      &quot;body&quot;: {
+        &quot;user&quot;: {
+          &quot;id&quot;: &quot;[ID_7]&quot;,
+          &quot;username&quot;: &quot;[temporary_A]&quot;
+        }
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;A 로그인&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/login&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[temporary_A]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;user&quot;: {
+          &quot;id&quot;: &quot;[ID_7]&quot;,
+          &quot;username&quot;: &quot;[temporary_A]&quot;
+        },
+        &quot;expires_at&quot;: &quot;2026-10-27T07:49:56.525Z&quot;
+      },
+      &quot;set_cookie&quot;: &quot;[REDACTED]&quot;
+    }
+  },
+  {
+    &quot;label&quot;: &quot;B 가입&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/signup&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[temporary_B]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 201,
+      &quot;body&quot;: {
+        &quot;user&quot;: {
+          &quot;id&quot;: &quot;[ID_8]&quot;,
+          &quot;username&quot;: &quot;[temporary_B]&quot;
+        }
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;B 로그인&quot;,
+    &quot;actor&quot;: &quot;temporary_B&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/login&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[temporary_B]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;user&quot;: {
+          &quot;id&quot;: &quot;[ID_8]&quot;,
+          &quot;username&quot;: &quot;[temporary_B]&quot;
+        },
+        &quot;expires_at&quot;: &quot;2026-10-27T07:49:56.701Z&quot;
+      },
+      &quot;set_cookie&quot;: &quot;[REDACTED]&quot;
+    }
+  },
+  {
+    &quot;label&quot;: &quot;동일 아이디 가입 차단&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/signup&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[temporary_A]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 409,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;이미 사용 중인 아이디입니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;틀린 비밀번호 로그인&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/login&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[temporary_A]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 401,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;아이디 또는 비밀번호를 확인해 주세요.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;없는 아이디 로그인&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/login&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[unknown_account]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 401,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;아이디 또는 비밀번호를 확인해 주세요.&quot;
+      }
+    }
+  }
+]</pre></details><details class="panel"><summary>② 같은 임시 비밀번호의 서로 다른 저장 해시·salt</summary><pre>{
+  &quot;checked_at&quot;: &quot;2026-10-26T07:49:57.094Z&quot;,
+  &quot;same_test_password&quot;: true,
+  &quot;rows&quot;: [
+    {
+      &quot;username&quot;: &quot;[temporary_A]&quot;,
+      &quot;password_hash&quot;: &quot;[REDACTED: private evidence only]&quot;
+    },
+    {
+      &quot;username&quot;: &quot;[temporary_B]&quot;,
+      &quot;password_hash&quot;: &quot;[REDACTED: private evidence only]&quot;
+    }
+  ],
+  &quot;pass&quot;: true
+}</pre></details><details class="panel"><summary>③ 같은 주소·방식의 로그인 전후·로그아웃 재전송</summary><pre>[
+  {
+    &quot;label&quot;: &quot;익명 /api/state&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/state&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 401,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;로그인이 필요합니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;익명 자료 화면&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/diary&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 303,
+      &quot;body&quot;: {
+        &quot;non_json_response&quot;: true
+      },
+      &quot;location&quot;: &quot;https://example.test/?login=required&quot;
+    }
+  },
+  {
+    &quot;label&quot;: &quot;로그아웃 전 같은 쿠키 조회&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/state&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;plans&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A&quot;,
+            &quot;start_date&quot;: &quot;2026-10-26&quot;,
+            &quot;end_date&quot;: &quot;2026-10-26&quot;,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;success_criteria&quot;: &quot;자동 접근통제 점검용 합성 자료&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.534Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.534Z&quot;
+          }
+        ],
+        &quot;plan_revisions&quot;: [],
+        &quot;tasks&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_5]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A 삭제 시험&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: &quot;2026-10-26T07:49:56.574Z&quot;,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.569Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.574Z&quot;
+          },
+          {
+            &quot;id&quot;: &quot;[ID_6]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A 수정 확인&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.542Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.562Z&quot;
+          }
+        ],
+        &quot;execution_logs&quot;: [],
+        &quot;reflections&quot;: [],
+        &quot;task_completions&quot;: [],
+        &quot;reflection_links&quot;: [],
+        &quot;summary&quot;: {
+          &quot;plans&quot;: 1,
+          &quot;open_tasks&quot;: 1,
+          &quot;completed&quot;: 0,
+          &quot;overdue&quot;: 0,
+          &quot;blocked&quot;: 0,
+          &quot;expected_minutes&quot;: 0,
+          &quot;actual_minutes&quot;: 0,
+          &quot;difference_minutes&quot;: 0
+        },
+        &quot;summaries&quot;: {
+          &quot;[ID_4]&quot;: {
+            &quot;plans&quot;: 1,
+            &quot;open_tasks&quot;: 1,
+            &quot;completed&quot;: 0,
+            &quot;overdue&quot;: 0,
+            &quot;blocked&quot;: 0,
+            &quot;expected_minutes&quot;: 0,
+            &quot;actual_minutes&quot;: 0,
+            &quot;difference_minutes&quot;: 0
+          }
+        },
+        &quot;evaluated_at&quot;: &quot;2026-10-26T07:49:57.345Z&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;A 로그아웃&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/logout&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;logged_out&quot;: true
+      },
+      &quot;set_cookie&quot;: &quot;[REDACTED]&quot;
+    }
+  },
+  {
+    &quot;label&quot;: &quot;로그아웃 뒤 원래 쿠키 재전송&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/state&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 401,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;로그인이 필요합니다.&quot;
+      }
+    }
+  }
+]</pre></details><details class="panel"><summary>④ A↔B 조회·수정·삭제 거부와 소유자의 허용</summary><pre>[
+  {
+    &quot;label&quot;: &quot;A 본인 자료 조회&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_6]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;id&quot;: &quot;[ID_6]&quot;,
+        &quot;plan_id&quot;: &quot;[ID_4]&quot;,
+        &quot;title&quot;: &quot;[자동 권한 점검] A의 할 일&quot;,
+        &quot;due_at&quot;: null,
+        &quot;priority&quot;: &quot;보통&quot;,
+        &quot;category&quot;: &quot;자동 권한 점검&quot;,
+        &quot;expected_minutes&quot;: 0,
+        &quot;status&quot;: &quot;todo&quot;,
+        &quot;blocked_reason&quot;: &quot;&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;created_at&quot;: &quot;2026-10-26T07:49:56.542Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.542Z&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;A 본인 자료 수정&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;PATCH&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_6]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      },
+      &quot;body&quot;: {
+        &quot;title&quot;: &quot;[자동 권한 점검] A 수정 확인&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;id&quot;: &quot;[ID_6]&quot;,
+        &quot;updated&quot;: true
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;A 본인 자료 삭제&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;DELETE&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_5]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;id&quot;: &quot;[ID_5]&quot;,
+        &quot;deleted&quot;: true
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;B 본인 자료 조회&quot;,
+    &quot;actor&quot;: &quot;temporary_B&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_3]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;id&quot;: &quot;[ID_3]&quot;,
+        &quot;plan_id&quot;: &quot;[ID_1]&quot;,
+        &quot;title&quot;: &quot;[자동 권한 점검] B의 할 일&quot;,
+        &quot;due_at&quot;: null,
+        &quot;priority&quot;: &quot;보통&quot;,
+        &quot;category&quot;: &quot;자동 권한 점검&quot;,
+        &quot;expected_minutes&quot;: 0,
+        &quot;status&quot;: &quot;todo&quot;,
+        &quot;blocked_reason&quot;: &quot;&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;created_at&quot;: &quot;2026-10-26T07:49:56.717Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.717Z&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;B 본인 자료 수정&quot;,
+    &quot;actor&quot;: &quot;temporary_B&quot;,
+    &quot;method&quot;: &quot;PATCH&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_3]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      },
+      &quot;body&quot;: {
+        &quot;title&quot;: &quot;[자동 권한 점검] B 수정 확인&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;id&quot;: &quot;[ID_3]&quot;,
+        &quot;updated&quot;: true
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;B 본인 자료 삭제&quot;,
+    &quot;actor&quot;: &quot;temporary_B&quot;,
+    &quot;method&quot;: &quot;DELETE&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_2]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;id&quot;: &quot;[ID_2]&quot;,
+        &quot;deleted&quot;: true
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;temporary_A → temporary_B 조회&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_3]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 404,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;자료를 찾을 수 없습니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;temporary_A → temporary_B 수정&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;PATCH&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_3]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      },
+      &quot;body&quot;: {
+        &quot;title&quot;: &quot;차단돼야 하는 자동 점검 수정&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 404,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;할 일을 찾을 수 없습니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;temporary_A → temporary_B 삭제&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;DELETE&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_3]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 404,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;할 일을 찾을 수 없습니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;temporary_B → temporary_A 조회&quot;,
+    &quot;actor&quot;: &quot;temporary_B&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_6]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 404,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;자료를 찾을 수 없습니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;temporary_B → temporary_A 수정&quot;,
+    &quot;actor&quot;: &quot;temporary_B&quot;,
+    &quot;method&quot;: &quot;PATCH&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_6]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      },
+      &quot;body&quot;: {
+        &quot;title&quot;: &quot;차단돼야 하는 자동 점검 수정&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 404,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;할 일을 찾을 수 없습니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;temporary_B → temporary_A 삭제&quot;,
+    &quot;actor&quot;: &quot;temporary_B&quot;,
+    &quot;method&quot;: &quot;DELETE&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/tasks/[ID_6]&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 404,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;할 일을 찾을 수 없습니다.&quot;
+      }
+    }
+  }
+]</pre></details><details class="panel"><summary>⑤ 거절 전후 피해 자료의 건수·내용·해시와 소유자 위조</summary><pre>[
+  {
+    &quot;name&quot;: &quot;temporary_B 행 수와 내용 불변&quot;,
+    &quot;pass&quot;: true,
+    &quot;before&quot;: {
+      &quot;counts&quot;: {
+        &quot;plans&quot;: 1,
+        &quot;plan_revisions&quot;: 0,
+        &quot;tasks&quot;: 2,
+        &quot;execution_logs&quot;: 0,
+        &quot;reflections&quot;: 0,
+        &quot;task_completions&quot;: 0,
+        &quot;reflection_links&quot;: 0
+      },
+      &quot;content&quot;: {
+        &quot;plans&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_1]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] B&quot;,
+            &quot;start_date&quot;: &quot;2026-10-26&quot;,
+            &quot;end_date&quot;: &quot;2026-10-26&quot;,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;success_criteria&quot;: &quot;자동 접근통제 점검용 합성 자료&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.710Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.710Z&quot;
+          }
+        ],
+        &quot;plan_revisions&quot;: [],
+        &quot;tasks&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_2]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_1]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] B 삭제 시험&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: &quot;2026-10-26T07:49:56.742Z&quot;,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.737Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.742Z&quot;
+          },
+          {
+            &quot;id&quot;: &quot;[ID_3]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_1]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] B 수정 확인&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.717Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.731Z&quot;
+          }
+        ],
+        &quot;execution_logs&quot;: [],
+        &quot;reflections&quot;: [],
+        &quot;task_completions&quot;: [],
+        &quot;reflection_links&quot;: []
+      },
+      &quot;content_sha256&quot;: &quot;[REDACTED: private evidence only]&quot;
+    },
+    &quot;after&quot;: {
+      &quot;counts&quot;: {
+        &quot;plans&quot;: 1,
+        &quot;plan_revisions&quot;: 0,
+        &quot;tasks&quot;: 2,
+        &quot;execution_logs&quot;: 0,
+        &quot;reflections&quot;: 0,
+        &quot;task_completions&quot;: 0,
+        &quot;reflection_links&quot;: 0
+      },
+      &quot;content&quot;: {
+        &quot;plans&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_1]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] B&quot;,
+            &quot;start_date&quot;: &quot;2026-10-26&quot;,
+            &quot;end_date&quot;: &quot;2026-10-26&quot;,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;success_criteria&quot;: &quot;자동 접근통제 점검용 합성 자료&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.710Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.710Z&quot;
+          }
+        ],
+        &quot;plan_revisions&quot;: [],
+        &quot;tasks&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_2]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_1]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] B 삭제 시험&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: &quot;2026-10-26T07:49:56.742Z&quot;,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.737Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.742Z&quot;
+          },
+          {
+            &quot;id&quot;: &quot;[ID_3]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_1]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] B 수정 확인&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.717Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.731Z&quot;
+          }
+        ],
+        &quot;execution_logs&quot;: [],
+        &quot;reflections&quot;: [],
+        &quot;task_completions&quot;: [],
+        &quot;reflection_links&quot;: []
+      },
+      &quot;content_sha256&quot;: &quot;[REDACTED: private evidence only]&quot;
+    }
+  },
+  {
+    &quot;name&quot;: &quot;temporary_A 목록·URL·헤더 소유자 위조 차단&quot;,
+    &quot;pass&quot;: true
+  },
+  {
+    &quot;name&quot;: &quot;temporary_A 본문의 다른 소유자 연결 거부&quot;,
+    &quot;pass&quot;: true
+  },
+  {
+    &quot;name&quot;: &quot;temporary_A 행 수와 내용 불변&quot;,
+    &quot;pass&quot;: true,
+    &quot;before&quot;: {
+      &quot;counts&quot;: {
+        &quot;plans&quot;: 1,
+        &quot;plan_revisions&quot;: 0,
+        &quot;tasks&quot;: 2,
+        &quot;execution_logs&quot;: 0,
+        &quot;reflections&quot;: 0,
+        &quot;task_completions&quot;: 0,
+        &quot;reflection_links&quot;: 0
+      },
+      &quot;content&quot;: {
+        &quot;plans&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A&quot;,
+            &quot;start_date&quot;: &quot;2026-10-26&quot;,
+            &quot;end_date&quot;: &quot;2026-10-26&quot;,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;success_criteria&quot;: &quot;자동 접근통제 점검용 합성 자료&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.534Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.534Z&quot;
+          }
+        ],
+        &quot;plan_revisions&quot;: [],
+        &quot;tasks&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_5]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A 삭제 시험&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: &quot;2026-10-26T07:49:56.574Z&quot;,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.569Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.574Z&quot;
+          },
+          {
+            &quot;id&quot;: &quot;[ID_6]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A 수정 확인&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.542Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.562Z&quot;
+          }
+        ],
+        &quot;execution_logs&quot;: [],
+        &quot;reflections&quot;: [],
+        &quot;task_completions&quot;: [],
+        &quot;reflection_links&quot;: []
+      },
+      &quot;content_sha256&quot;: &quot;[REDACTED: private evidence only]&quot;
+    },
+    &quot;after&quot;: {
+      &quot;counts&quot;: {
+        &quot;plans&quot;: 1,
+        &quot;plan_revisions&quot;: 0,
+        &quot;tasks&quot;: 2,
+        &quot;execution_logs&quot;: 0,
+        &quot;reflections&quot;: 0,
+        &quot;task_completions&quot;: 0,
+        &quot;reflection_links&quot;: 0
+      },
+      &quot;content&quot;: {
+        &quot;plans&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A&quot;,
+            &quot;start_date&quot;: &quot;2026-10-26&quot;,
+            &quot;end_date&quot;: &quot;2026-10-26&quot;,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;success_criteria&quot;: &quot;자동 접근통제 점검용 합성 자료&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.534Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.534Z&quot;
+          }
+        ],
+        &quot;plan_revisions&quot;: [],
+        &quot;tasks&quot;: [
+          {
+            &quot;id&quot;: &quot;[ID_5]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A 삭제 시험&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: &quot;2026-10-26T07:49:56.574Z&quot;,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.569Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.574Z&quot;
+          },
+          {
+            &quot;id&quot;: &quot;[ID_6]&quot;,
+            &quot;plan_id&quot;: &quot;[ID_4]&quot;,
+            &quot;title&quot;: &quot;[자동 권한 점검] A 수정 확인&quot;,
+            &quot;due_at&quot;: null,
+            &quot;priority&quot;: &quot;보통&quot;,
+            &quot;category&quot;: &quot;자동 권한 점검&quot;,
+            &quot;expected_minutes&quot;: 0,
+            &quot;status&quot;: &quot;todo&quot;,
+            &quot;blocked_reason&quot;: &quot;&quot;,
+            &quot;deleted_at&quot;: null,
+            &quot;created_at&quot;: &quot;2026-10-26T07:49:56.542Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-10-26T07:49:56.562Z&quot;
+          }
+        ],
+        &quot;execution_logs&quot;: [],
+        &quot;reflections&quot;: [],
+        &quot;task_completions&quot;: [],
+        &quot;reflection_links&quot;: []
+      },
+      &quot;content_sha256&quot;: &quot;[REDACTED: private evidence only]&quot;
+    }
+  },
+  {
+    &quot;name&quot;: &quot;temporary_B 목록·URL·헤더 소유자 위조 차단&quot;,
+    &quot;pass&quot;: true
+  },
+  {
+    &quot;name&quot;: &quot;temporary_B 본문의 다른 소유자 연결 거부&quot;,
+    &quot;pass&quot;: true
+  }
+]</pre></details><details class="panel"><summary>⑥ 비밀번호 변경 뒤 이전 세션 거부·새 비밀번호 허용</summary><pre>[
+  {
+    &quot;label&quot;: &quot;A 비밀번호 변경&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/password&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      },
+      &quot;body&quot;: {
+        &quot;current_password&quot;: &quot;[REDACTED]&quot;,
+        &quot;new_password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;changed&quot;: true,
+        &quot;login_required&quot;: true
+      },
+      &quot;set_cookie&quot;: &quot;[REDACTED]&quot;
+    }
+  },
+  {
+    &quot;label&quot;: &quot;이전 세션 1 재전송&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/state&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 401,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;로그인이 필요합니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;이전 세션 2 재전송&quot;,
+    &quot;actor&quot;: &quot;temporary_A&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/state&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;,
+        &quot;cookie&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 401,
+      &quot;body&quot;: {
+        &quot;error&quot;: &quot;로그인이 필요합니다.&quot;
+      }
+    }
+  },
+  {
+    &quot;label&quot;: &quot;새 비밀번호 로그인&quot;,
+    &quot;actor&quot;: &quot;anonymous&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;url&quot;: &quot;https://example.test/api/auth/login&quot;,
+    &quot;request&quot;: {
+      &quot;headers&quot;: {
+        &quot;content-type&quot;: &quot;application/json&quot;,
+        &quot;x-requested-with&quot;: &quot;aleph-diary&quot;
+      },
+      &quot;body&quot;: {
+        &quot;username&quot;: &quot;[temporary_A]&quot;,
+        &quot;password&quot;: &quot;[REDACTED]&quot;
+      }
+    },
+    &quot;response&quot;: {
+      &quot;status&quot;: 200,
+      &quot;body&quot;: {
+        &quot;user&quot;: {
+          &quot;id&quot;: &quot;[ID_7]&quot;,
+          &quot;username&quot;: &quot;[temporary_A]&quot;
+        },
+        &quot;expires_at&quot;: &quot;2026-10-27T07:49:57.328Z&quot;
+      },
+      &quot;set_cookie&quot;: &quot;[REDACTED]&quot;
+    }
+  }
+]</pre></details><details class="panel"><summary>전체 PASS 목록과 임시 계정 정리</summary><pre>{
+  &quot;checks&quot;: [
+    {
+      &quot;name&quot;: &quot;A 가입 성공&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 로그인 성공&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 세션 쿠키 속성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 본인 계획 생성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 본인 할 일 생성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 본인 조회 허용&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 본인 수정 허용&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 삭제 시험 자료 생성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;A 본인 삭제 허용&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 가입 성공&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 로그인 성공&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 세션 쿠키 속성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 본인 계획 생성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 본인 할 일 생성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 본인 조회 허용&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 본인 수정 허용&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 삭제 시험 자료 생성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;B 본인 삭제 허용&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;정규화한 중복 아이디 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;로그인 실패 문구 동일&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;익명 /api/state 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;익명 /api/export 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;익명 /api/imports 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;비로그인 자료 화면은 로그인으로 이동&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;피해 계정 점검 전 조회&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_A → temporary_B 조회 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_A → temporary_B 수정 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_A → temporary_B 삭제 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;피해 계정 점검 후 조회&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_B 행 수와 내용 불변&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_A 목록·URL·헤더 소유자 위조 차단&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_A 본문의 다른 소유자 연결 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;피해 계정 점검 전 조회&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_B → temporary_A 조회 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_B → temporary_A 수정 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_B → temporary_A 삭제 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;피해 계정 점검 후 조회&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_A 행 수와 내용 불변&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_B 목록·URL·헤더 소유자 위조 차단&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;temporary_B 본문의 다른 소유자 연결 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;동일 비밀번호의 저장값·소금값이 다름&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;추가 세션 생성&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;비밀번호 변경 성공&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;변경 전 세션 1 재전송 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;변경 전 세션 2 재전송 거부&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;새 비밀번호 로그인 성공&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;로그아웃 전 조회 허용&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;로그아웃 성공&quot;,
+      &quot;pass&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;로그아웃 뒤 같은 쿠키 재전송 거부&quot;,
+      &quot;pass&quot;: true
+    }
+  ],
+  &quot;cleanup&quot;: [
+    {
+      &quot;username&quot;: &quot;[temporary_A]&quot;,
+      &quot;deleted&quot;: true,
+      &quot;old_session_rejected&quot;: true
+    },
+    {
+      &quot;username&quot;: &quot;[temporary_B]&quot;,
+      &quot;deleted&quot;: true,
+      &quot;old_session_rejected&quot;: true
+    }
+  ]
+}</pre></details><p>테스트 통과는 확인한 범위의 결과이며 실제 5일 사용 또는 상용 보안 인증이 아닙니다.</p></section></main></div></body></html>

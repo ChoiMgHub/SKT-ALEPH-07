@@ -1,0 +1,2232 @@
+{
+  "kind": "temporary-account-auth-verification",
+  "started_at": "2026-10-26T07:49:56.379Z",
+  "timezone": "Asia/Seoul",
+  "base_url": "https://example.test",
+  "scope": "자동 생성 임시 계정의 실제 요청 점검. 사용자의 기존 계정·자료 또는 실제 5일 사용 기록과 구분한다.",
+  "checks": [
+    {
+      "name": "A 가입 성공",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "A 로그인 성공",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "A 세션 쿠키 속성",
+      "pass": true,
+      "http_only": true,
+      "same_site_strict": true,
+      "max_age_seconds": 86400,
+      "secure_present": true,
+      "secure_required": true
+    },
+    {
+      "name": "A 본인 계획 생성",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "A 본인 할 일 생성",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "A 본인 조회 허용",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "A 본인 수정 허용",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "A 삭제 시험 자료 생성",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "A 본인 삭제 허용",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "B 가입 성공",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "B 로그인 성공",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "B 세션 쿠키 속성",
+      "pass": true,
+      "http_only": true,
+      "same_site_strict": true,
+      "max_age_seconds": 86400,
+      "secure_present": true,
+      "secure_required": true
+    },
+    {
+      "name": "B 본인 계획 생성",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "B 본인 할 일 생성",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "B 본인 조회 허용",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "B 본인 수정 허용",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "B 삭제 시험 자료 생성",
+      "pass": true,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "name": "B 본인 삭제 허용",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "정규화한 중복 아이디 거부",
+      "pass": true
+    },
+    {
+      "name": "로그인 실패 문구 동일",
+      "pass": true
+    },
+    {
+      "name": "익명 /api/state 거부",
+      "pass": true
+    },
+    {
+      "name": "익명 /api/export 거부",
+      "pass": true
+    },
+    {
+      "name": "익명 /api/imports 거부",
+      "pass": true
+    },
+    {
+      "name": "비로그인 자료 화면은 로그인으로 이동",
+      "pass": true
+    },
+    {
+      "name": "피해 계정 점검 전 조회",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "temporary_A → temporary_B 조회 거부",
+      "pass": true,
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "temporary_A → temporary_B 수정 거부",
+      "pass": true,
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "temporary_A → temporary_B 삭제 거부",
+      "pass": true,
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "피해 계정 점검 후 조회",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "temporary_B 행 수와 내용 불변",
+      "pass": true,
+      "before": {
+        "counts": {
+          "plans": 1,
+          "plan_revisions": 0,
+          "tasks": 2,
+          "execution_logs": 0,
+          "reflections": 0,
+          "task_completions": 0,
+          "reflection_links": 0
+        },
+        "content": {
+          "plans": [
+            {
+              "id": "[ID_1]",
+              "title": "[자동 권한 점검] B",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.710Z",
+              "updated_at": "2026-10-26T07:49:56.710Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_2]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.742Z",
+              "created_at": "2026-10-26T07:49:56.737Z",
+              "updated_at": "2026-10-26T07:49:56.742Z"
+            },
+            {
+              "id": "[ID_3]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.717Z",
+              "updated_at": "2026-10-26T07:49:56.731Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": []
+        },
+        "content_sha256": "[REDACTED: private evidence only]"
+      },
+      "after": {
+        "counts": {
+          "plans": 1,
+          "plan_revisions": 0,
+          "tasks": 2,
+          "execution_logs": 0,
+          "reflections": 0,
+          "task_completions": 0,
+          "reflection_links": 0
+        },
+        "content": {
+          "plans": [
+            {
+              "id": "[ID_1]",
+              "title": "[자동 권한 점검] B",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.710Z",
+              "updated_at": "2026-10-26T07:49:56.710Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_2]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.742Z",
+              "created_at": "2026-10-26T07:49:56.737Z",
+              "updated_at": "2026-10-26T07:49:56.742Z"
+            },
+            {
+              "id": "[ID_3]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.717Z",
+              "updated_at": "2026-10-26T07:49:56.731Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": []
+        },
+        "content_sha256": "[REDACTED: private evidence only]"
+      }
+    },
+    {
+      "name": "temporary_A 목록·URL·헤더 소유자 위조 차단",
+      "pass": true
+    },
+    {
+      "name": "temporary_A 본문의 다른 소유자 연결 거부",
+      "pass": true
+    },
+    {
+      "name": "피해 계정 점검 전 조회",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "temporary_B → temporary_A 조회 거부",
+      "pass": true,
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "temporary_B → temporary_A 수정 거부",
+      "pass": true,
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "temporary_B → temporary_A 삭제 거부",
+      "pass": true,
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "피해 계정 점검 후 조회",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "temporary_A 행 수와 내용 불변",
+      "pass": true,
+      "before": {
+        "counts": {
+          "plans": 1,
+          "plan_revisions": 0,
+          "tasks": 2,
+          "execution_logs": 0,
+          "reflections": 0,
+          "task_completions": 0,
+          "reflection_links": 0
+        },
+        "content": {
+          "plans": [
+            {
+              "id": "[ID_4]",
+              "title": "[자동 권한 점검] A",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.534Z",
+              "updated_at": "2026-10-26T07:49:56.534Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_5]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.574Z",
+              "created_at": "2026-10-26T07:49:56.569Z",
+              "updated_at": "2026-10-26T07:49:56.574Z"
+            },
+            {
+              "id": "[ID_6]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.542Z",
+              "updated_at": "2026-10-26T07:49:56.562Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": []
+        },
+        "content_sha256": "[REDACTED: private evidence only]"
+      },
+      "after": {
+        "counts": {
+          "plans": 1,
+          "plan_revisions": 0,
+          "tasks": 2,
+          "execution_logs": 0,
+          "reflections": 0,
+          "task_completions": 0,
+          "reflection_links": 0
+        },
+        "content": {
+          "plans": [
+            {
+              "id": "[ID_4]",
+              "title": "[자동 권한 점검] A",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.534Z",
+              "updated_at": "2026-10-26T07:49:56.534Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_5]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.574Z",
+              "created_at": "2026-10-26T07:49:56.569Z",
+              "updated_at": "2026-10-26T07:49:56.574Z"
+            },
+            {
+              "id": "[ID_6]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.542Z",
+              "updated_at": "2026-10-26T07:49:56.562Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": []
+        },
+        "content_sha256": "[REDACTED: private evidence only]"
+      }
+    },
+    {
+      "name": "temporary_B 목록·URL·헤더 소유자 위조 차단",
+      "pass": true
+    },
+    {
+      "name": "temporary_B 본문의 다른 소유자 연결 거부",
+      "pass": true
+    },
+    {
+      "name": "동일 비밀번호의 저장값·소금값이 다름",
+      "pass": true
+    },
+    {
+      "name": "추가 세션 생성",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "비밀번호 변경 성공",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "변경 전 세션 1 재전송 거부",
+      "pass": true
+    },
+    {
+      "name": "변경 전 세션 2 재전송 거부",
+      "pass": true
+    },
+    {
+      "name": "새 비밀번호 로그인 성공",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "로그아웃 전 조회 허용",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "로그아웃 성공",
+      "pass": true,
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "로그아웃 뒤 같은 쿠키 재전송 거부",
+      "pass": true
+    }
+  ],
+  "requests": [
+    {
+      "label": "대상 앱 확인",
+      "actor": "anonymous",
+      "method": "GET",
+      "url": "https://example.test/api/health",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "database": "connected",
+          "implementation_version": "task07-auth-v1"
+        }
+      }
+    },
+    {
+      "label": "A 가입",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/signup",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_A]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "user": {
+            "id": "[ID_7]",
+            "username": "[temporary_A]"
+          }
+        }
+      }
+    },
+    {
+      "label": "A 로그인",
+      "actor": "temporary_A",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_A]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "user": {
+            "id": "[ID_7]",
+            "username": "[temporary_A]"
+          },
+          "expires_at": "2026-10-27T07:49:56.525Z"
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "A 테스트 계획 생성",
+      "actor": "temporary_A",
+      "method": "POST",
+      "url": "https://example.test/api/plans",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "[자동 권한 점검] A",
+          "start_date": "2026-10-26",
+          "end_date": "2026-10-26",
+          "priority": "보통",
+          "success_criteria": "자동 접근통제 점검용 합성 자료",
+          "expected_minutes": 0
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "[ID_4]"
+        }
+      }
+    },
+    {
+      "label": "A 테스트 할 일 생성",
+      "actor": "temporary_A",
+      "method": "POST",
+      "url": "https://example.test/api/tasks",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "plan_id": "[ID_4]",
+          "title": "[자동 권한 점검] A의 할 일",
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo"
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "[ID_6]"
+        }
+      }
+    },
+    {
+      "label": "A 본인 자료 조회",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_6]",
+          "plan_id": "[ID_4]",
+          "title": "[자동 권한 점검] A의 할 일",
+          "due_at": null,
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo",
+          "blocked_reason": "",
+          "deleted_at": null,
+          "created_at": "2026-10-26T07:49:56.542Z",
+          "updated_at": "2026-10-26T07:49:56.542Z"
+        }
+      }
+    },
+    {
+      "label": "A 본인 자료 수정",
+      "actor": "temporary_A",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "[자동 권한 점검] A 수정 확인"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_6]",
+          "updated": true
+        }
+      }
+    },
+    {
+      "label": "A 본인 삭제용 할 일 생성",
+      "actor": "temporary_A",
+      "method": "POST",
+      "url": "https://example.test/api/tasks",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "plan_id": "[ID_4]",
+          "title": "[자동 권한 점검] A 삭제 시험",
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo"
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "[ID_5]"
+        }
+      }
+    },
+    {
+      "label": "A 본인 자료 삭제",
+      "actor": "temporary_A",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_5]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_5]",
+          "deleted": true
+        }
+      }
+    },
+    {
+      "label": "B 가입",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/signup",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_B]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "user": {
+            "id": "[ID_8]",
+            "username": "[temporary_B]"
+          }
+        }
+      }
+    },
+    {
+      "label": "B 로그인",
+      "actor": "temporary_B",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_B]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "user": {
+            "id": "[ID_8]",
+            "username": "[temporary_B]"
+          },
+          "expires_at": "2026-10-27T07:49:56.701Z"
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "B 테스트 계획 생성",
+      "actor": "temporary_B",
+      "method": "POST",
+      "url": "https://example.test/api/plans",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "[자동 권한 점검] B",
+          "start_date": "2026-10-26",
+          "end_date": "2026-10-26",
+          "priority": "보통",
+          "success_criteria": "자동 접근통제 점검용 합성 자료",
+          "expected_minutes": 0
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "[ID_1]"
+        }
+      }
+    },
+    {
+      "label": "B 테스트 할 일 생성",
+      "actor": "temporary_B",
+      "method": "POST",
+      "url": "https://example.test/api/tasks",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "plan_id": "[ID_1]",
+          "title": "[자동 권한 점검] B의 할 일",
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo"
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "[ID_3]"
+        }
+      }
+    },
+    {
+      "label": "B 본인 자료 조회",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_3]",
+          "plan_id": "[ID_1]",
+          "title": "[자동 권한 점검] B의 할 일",
+          "due_at": null,
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo",
+          "blocked_reason": "",
+          "deleted_at": null,
+          "created_at": "2026-10-26T07:49:56.717Z",
+          "updated_at": "2026-10-26T07:49:56.717Z"
+        }
+      }
+    },
+    {
+      "label": "B 본인 자료 수정",
+      "actor": "temporary_B",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "[자동 권한 점검] B 수정 확인"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_3]",
+          "updated": true
+        }
+      }
+    },
+    {
+      "label": "B 본인 삭제용 할 일 생성",
+      "actor": "temporary_B",
+      "method": "POST",
+      "url": "https://example.test/api/tasks",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "plan_id": "[ID_1]",
+          "title": "[자동 권한 점검] B 삭제 시험",
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo"
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "[ID_2]"
+        }
+      }
+    },
+    {
+      "label": "B 본인 자료 삭제",
+      "actor": "temporary_B",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_2]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_2]",
+          "deleted": true
+        }
+      }
+    },
+    {
+      "label": "동일 아이디 가입 차단",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/signup",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_A]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 409,
+        "body": {
+          "error": "이미 사용 중인 아이디입니다."
+        }
+      }
+    },
+    {
+      "label": "틀린 비밀번호 로그인",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_A]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "아이디 또는 비밀번호를 확인해 주세요."
+        }
+      }
+    },
+    {
+      "label": "없는 아이디 로그인",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[unknown_account]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "아이디 또는 비밀번호를 확인해 주세요."
+        }
+      }
+    },
+    {
+      "label": "익명 /api/state",
+      "actor": "anonymous",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    },
+    {
+      "label": "익명 /api/export",
+      "actor": "anonymous",
+      "method": "GET",
+      "url": "https://example.test/api/export",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    },
+    {
+      "label": "익명 /api/imports",
+      "actor": "anonymous",
+      "method": "GET",
+      "url": "https://example.test/api/imports",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    },
+    {
+      "label": "익명 자료 화면",
+      "actor": "anonymous",
+      "method": "GET",
+      "url": "https://example.test/diary",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        }
+      },
+      "response": {
+        "status": 303,
+        "body": {
+          "non_json_response": true
+        },
+        "location": "https://example.test/?login=required"
+      }
+    },
+    {
+      "label": "temporary_B 점검 전 자료",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plans": [
+            {
+              "id": "[ID_1]",
+              "title": "[자동 권한 점검] B",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.710Z",
+              "updated_at": "2026-10-26T07:49:56.710Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_2]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.742Z",
+              "created_at": "2026-10-26T07:49:56.737Z",
+              "updated_at": "2026-10-26T07:49:56.742Z"
+            },
+            {
+              "id": "[ID_3]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.717Z",
+              "updated_at": "2026-10-26T07:49:56.731Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": [],
+          "summary": {
+            "plans": 1,
+            "open_tasks": 1,
+            "completed": 0,
+            "overdue": 0,
+            "blocked": 0,
+            "expected_minutes": 0,
+            "actual_minutes": 0,
+            "difference_minutes": 0
+          },
+          "summaries": {
+            "[ID_1]": {
+              "plans": 1,
+              "open_tasks": 1,
+              "completed": 0,
+              "overdue": 0,
+              "blocked": 0,
+              "expected_minutes": 0,
+              "actual_minutes": 0,
+              "difference_minutes": 0
+            }
+          },
+          "evaluated_at": "2026-10-26T07:49:56.959Z"
+        }
+      }
+    },
+    {
+      "label": "temporary_A → temporary_B 조회",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_A → temporary_B 수정",
+      "actor": "temporary_A",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "차단돼야 하는 자동 점검 수정"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_A → temporary_B 삭제",
+      "actor": "temporary_A",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_B 점검 후 자료",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plans": [
+            {
+              "id": "[ID_1]",
+              "title": "[자동 권한 점검] B",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.710Z",
+              "updated_at": "2026-10-26T07:49:56.710Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_2]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.742Z",
+              "created_at": "2026-10-26T07:49:56.737Z",
+              "updated_at": "2026-10-26T07:49:56.742Z"
+            },
+            {
+              "id": "[ID_3]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.717Z",
+              "updated_at": "2026-10-26T07:49:56.731Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": [],
+          "summary": {
+            "plans": 1,
+            "open_tasks": 1,
+            "completed": 0,
+            "overdue": 0,
+            "blocked": 0,
+            "expected_minutes": 0,
+            "actual_minutes": 0,
+            "difference_minutes": 0
+          },
+          "summaries": {
+            "[ID_1]": {
+              "plans": 1,
+              "open_tasks": 1,
+              "completed": 0,
+              "overdue": 0,
+              "blocked": 0,
+              "expected_minutes": 0,
+              "actual_minutes": 0,
+              "difference_minutes": 0
+            }
+          },
+          "evaluated_at": "2026-10-26T07:49:56.993Z"
+        }
+      }
+    },
+    {
+      "label": "temporary_A URL·헤더 소유자 위조",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state?user_id=[ID_8]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "x-user-id": "[ID_8]",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plans": [
+            {
+              "id": "[ID_4]",
+              "title": "[자동 권한 점검] A",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.534Z",
+              "updated_at": "2026-10-26T07:49:56.534Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_5]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.574Z",
+              "created_at": "2026-10-26T07:49:56.569Z",
+              "updated_at": "2026-10-26T07:49:56.574Z"
+            },
+            {
+              "id": "[ID_6]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.542Z",
+              "updated_at": "2026-10-26T07:49:56.562Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": [],
+          "summary": {
+            "plans": 1,
+            "open_tasks": 1,
+            "completed": 0,
+            "overdue": 0,
+            "blocked": 0,
+            "expected_minutes": 0,
+            "actual_minutes": 0,
+            "difference_minutes": 0
+          },
+          "summaries": {
+            "[ID_4]": {
+              "plans": 1,
+              "open_tasks": 1,
+              "completed": 0,
+              "overdue": 0,
+              "blocked": 0,
+              "expected_minutes": 0,
+              "actual_minutes": 0,
+              "difference_minutes": 0
+            }
+          },
+          "evaluated_at": "2026-10-26T07:49:57.022Z"
+        }
+      }
+    },
+    {
+      "label": "temporary_A 다른 소유자 계획으로 이동",
+      "actor": "temporary_A",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "plan_id": "[ID_1]",
+          "user_id": "[ID_8]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_A 점검 전 자료",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plans": [
+            {
+              "id": "[ID_4]",
+              "title": "[자동 권한 점검] A",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.534Z",
+              "updated_at": "2026-10-26T07:49:56.534Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_5]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.574Z",
+              "created_at": "2026-10-26T07:49:56.569Z",
+              "updated_at": "2026-10-26T07:49:56.574Z"
+            },
+            {
+              "id": "[ID_6]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.542Z",
+              "updated_at": "2026-10-26T07:49:56.562Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": [],
+          "summary": {
+            "plans": 1,
+            "open_tasks": 1,
+            "completed": 0,
+            "overdue": 0,
+            "blocked": 0,
+            "expected_minutes": 0,
+            "actual_minutes": 0,
+            "difference_minutes": 0
+          },
+          "summaries": {
+            "[ID_4]": {
+              "plans": 1,
+              "open_tasks": 1,
+              "completed": 0,
+              "overdue": 0,
+              "blocked": 0,
+              "expected_minutes": 0,
+              "actual_minutes": 0,
+              "difference_minutes": 0
+            }
+          },
+          "evaluated_at": "2026-10-26T07:49:57.040Z"
+        }
+      }
+    },
+    {
+      "label": "temporary_B → temporary_A 조회",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_B → temporary_A 수정",
+      "actor": "temporary_B",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "차단돼야 하는 자동 점검 수정"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_B → temporary_A 삭제",
+      "actor": "temporary_B",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_A 점검 후 자료",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plans": [
+            {
+              "id": "[ID_4]",
+              "title": "[자동 권한 점검] A",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.534Z",
+              "updated_at": "2026-10-26T07:49:56.534Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_5]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.574Z",
+              "created_at": "2026-10-26T07:49:56.569Z",
+              "updated_at": "2026-10-26T07:49:56.574Z"
+            },
+            {
+              "id": "[ID_6]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.542Z",
+              "updated_at": "2026-10-26T07:49:56.562Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": [],
+          "summary": {
+            "plans": 1,
+            "open_tasks": 1,
+            "completed": 0,
+            "overdue": 0,
+            "blocked": 0,
+            "expected_minutes": 0,
+            "actual_minutes": 0,
+            "difference_minutes": 0
+          },
+          "summaries": {
+            "[ID_4]": {
+              "plans": 1,
+              "open_tasks": 1,
+              "completed": 0,
+              "overdue": 0,
+              "blocked": 0,
+              "expected_minutes": 0,
+              "actual_minutes": 0,
+              "difference_minutes": 0
+            }
+          },
+          "evaluated_at": "2026-10-26T07:49:57.062Z"
+        }
+      }
+    },
+    {
+      "label": "temporary_B URL·헤더 소유자 위조",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/state?user_id=[ID_7]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "x-user-id": "[ID_7]",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plans": [
+            {
+              "id": "[ID_1]",
+              "title": "[자동 권한 점검] B",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.710Z",
+              "updated_at": "2026-10-26T07:49:56.710Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_2]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.742Z",
+              "created_at": "2026-10-26T07:49:56.737Z",
+              "updated_at": "2026-10-26T07:49:56.742Z"
+            },
+            {
+              "id": "[ID_3]",
+              "plan_id": "[ID_1]",
+              "title": "[자동 권한 점검] B 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.717Z",
+              "updated_at": "2026-10-26T07:49:56.731Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": [],
+          "summary": {
+            "plans": 1,
+            "open_tasks": 1,
+            "completed": 0,
+            "overdue": 0,
+            "blocked": 0,
+            "expected_minutes": 0,
+            "actual_minutes": 0,
+            "difference_minutes": 0
+          },
+          "summaries": {
+            "[ID_1]": {
+              "plans": 1,
+              "open_tasks": 1,
+              "completed": 0,
+              "overdue": 0,
+              "blocked": 0,
+              "expected_minutes": 0,
+              "actual_minutes": 0,
+              "difference_minutes": 0
+            }
+          },
+          "evaluated_at": "2026-10-26T07:49:57.075Z"
+        }
+      }
+    },
+    {
+      "label": "temporary_B 다른 소유자 계획으로 이동",
+      "actor": "temporary_B",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "plan_id": "[ID_4]",
+          "user_id": "[ID_7]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "A 추가 세션 로그인",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_A]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "user": {
+            "id": "[ID_7]",
+            "username": "[temporary_A]"
+          },
+          "expires_at": "2026-10-27T07:49:57.150Z"
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "A 비밀번호 변경",
+      "actor": "temporary_A",
+      "method": "POST",
+      "url": "https://example.test/api/auth/password",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "current_password": "[REDACTED]",
+          "new_password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "changed": true,
+          "login_required": true
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "이전 세션 1 재전송",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    },
+    {
+      "label": "이전 세션 2 재전송",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    },
+    {
+      "label": "새 비밀번호 로그인",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_A]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "user": {
+            "id": "[ID_7]",
+            "username": "[temporary_A]"
+          },
+          "expires_at": "2026-10-27T07:49:57.328Z"
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "로그아웃 전 같은 쿠키 조회",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plans": [
+            {
+              "id": "[ID_4]",
+              "title": "[자동 권한 점검] A",
+              "start_date": "2026-10-26",
+              "end_date": "2026-10-26",
+              "priority": "보통",
+              "success_criteria": "자동 접근통제 점검용 합성 자료",
+              "expected_minutes": 0,
+              "created_at": "2026-10-26T07:49:56.534Z",
+              "updated_at": "2026-10-26T07:49:56.534Z"
+            }
+          ],
+          "plan_revisions": [],
+          "tasks": [
+            {
+              "id": "[ID_5]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 삭제 시험",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": "2026-10-26T07:49:56.574Z",
+              "created_at": "2026-10-26T07:49:56.569Z",
+              "updated_at": "2026-10-26T07:49:56.574Z"
+            },
+            {
+              "id": "[ID_6]",
+              "plan_id": "[ID_4]",
+              "title": "[자동 권한 점검] A 수정 확인",
+              "due_at": null,
+              "priority": "보통",
+              "category": "자동 권한 점검",
+              "expected_minutes": 0,
+              "status": "todo",
+              "blocked_reason": "",
+              "deleted_at": null,
+              "created_at": "2026-10-26T07:49:56.542Z",
+              "updated_at": "2026-10-26T07:49:56.562Z"
+            }
+          ],
+          "execution_logs": [],
+          "reflections": [],
+          "task_completions": [],
+          "reflection_links": [],
+          "summary": {
+            "plans": 1,
+            "open_tasks": 1,
+            "completed": 0,
+            "overdue": 0,
+            "blocked": 0,
+            "expected_minutes": 0,
+            "actual_minutes": 0,
+            "difference_minutes": 0
+          },
+          "summaries": {
+            "[ID_4]": {
+              "plans": 1,
+              "open_tasks": 1,
+              "completed": 0,
+              "overdue": 0,
+              "blocked": 0,
+              "expected_minutes": 0,
+              "actual_minutes": 0,
+              "difference_minutes": 0
+            }
+          },
+          "evaluated_at": "2026-10-26T07:49:57.345Z"
+        }
+      }
+    },
+    {
+      "label": "A 로그아웃",
+      "actor": "temporary_A",
+      "method": "POST",
+      "url": "https://example.test/api/auth/logout",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "logged_out": true
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "로그아웃 뒤 원래 쿠키 재전송",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_A 정리용 로그인",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_A]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "user": {
+            "id": "[ID_7]",
+            "username": "[temporary_A]"
+          },
+          "expires_at": "2026-10-27T07:49:57.414Z"
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "temporary_A 임시 계정·자료 삭제",
+      "actor": "temporary_A",
+      "method": "DELETE",
+      "url": "https://example.test/api/auth/account",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "confirm_username": "[temporary_A]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "deleted": true
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "temporary_A 삭제 뒤 세션 재전송",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_B 정리용 로그인",
+      "actor": "anonymous",
+      "method": "POST",
+      "url": "https://example.test/api/auth/login",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary"
+        },
+        "body": {
+          "username": "[temporary_B]",
+          "password": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "user": {
+            "id": "[ID_8]",
+            "username": "[temporary_B]"
+          },
+          "expires_at": "2026-10-27T07:49:57.484Z"
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "temporary_B 임시 계정·자료 삭제",
+      "actor": "temporary_B",
+      "method": "DELETE",
+      "url": "https://example.test/api/auth/account",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "confirm_username": "[temporary_B]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "deleted": true
+        },
+        "set_cookie": "[REDACTED]"
+      }
+    },
+    {
+      "label": "temporary_B 삭제 뒤 세션 재전송",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/state",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    }
+  ],
+  "accounts": [
+    {
+      "label": "temporary_A",
+      "username": "[temporary_A]",
+      "user_id": "[ID_7]"
+    },
+    {
+      "label": "temporary_B",
+      "username": "[temporary_B]",
+      "user_id": "[ID_8]"
+    }
+  ],
+  "password_storage": {
+    "checked_at": "2026-10-26T07:49:57.094Z",
+    "same_test_password": true,
+    "rows": [
+      {
+        "username": "[temporary_A]",
+        "password_hash": "[REDACTED: private evidence only]"
+      },
+      {
+        "username": "[temporary_B]",
+        "password_hash": "[REDACTED: private evidence only]"
+      }
+    ],
+    "pass": true
+  },
+  "cleanup": [
+    {
+      "username": "[temporary_A]",
+      "deleted": true,
+      "old_session_rejected": true
+    },
+    {
+      "username": "[temporary_B]",
+      "deleted": true,
+      "old_session_rejected": true
+    }
+  ],
+  "errors": [],
+  "finished_at": "2026-10-26T07:49:57.498Z",
+  "passed": true,
+  "evidence_environment": {
+    "kind": "isolated-workerd-d1",
+    "created_by": "AI automated verification",
+    "production_deployment": false,
+    "notice": "AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청·응답입니다. example.test는 시험 주소이며 공개 Cloudflare 배포 점검이나 사용자의 실제 사용 기록이 아닙니다."
+  },
+  "public_redaction": "계정명·자료 ID는 일관된 익명 표지로 바꾸고 저장 해시·내용 해시는 공개하지 않았습니다. 원본은 .private/auth-evidence-ai.json에 비공개로 보관합니다."
+}

@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>하루 모의 체험 · 플랜두씨</title><link rel="stylesheet" href="/style.css"><script type="module" src="/study-demo.js"></script></head>
+<body><div class="shell"><header class="hero"><div><p class="eyebrow">SKT ALEPH · SIMULATION</p><h1>하루에 확인하는 5구간 모의 체험</h1><p class="subtitle">기록 → 두 기록에 근거한 규칙 변경 → 전후 비교</p></div></header>
+<nav class="steps"><a href="/">내 다이어리</a><a href="/verification.html">로그인 없이 검증 증거 보기</a></nav>
+<aside class="notice" role="note"><strong>실제 5일 사용 증거가 아닙니다.</strong><span>5일 흐름을 오늘 5구간으로 시험합니다. 입력값은 합성 시험값이며 계정·서버 DB에 저장하지 않습니다. 모든 시각은 지금 조작한 실제 시각이고, 과거·미래 날짜를 만들지 않습니다. 새로고침하면 초기화됩니다.</span></aside>
+<main><section class="section"><div class="panel"><h2>시험 질문과 같은 계산 기준</h2><p>질문: 규칙을 바꾼 뒤 같은 시간 지표의 평균은 어떻게 달라지는가?</p><p>지표: 모의 활동 시간 · 단위: 분 · 최초 규칙: 한 구간에 한 번 진행</p><p>누락 구간은 평균에서 제외합니다. 각 구간을 한 번씩 추가하며 저장한 값은 덮어쓰지 않습니다. 정수 0~1440분만 허용하고 0분도 포함합니다. 평균은 소수 첫째 자리까지 반올림합니다. 실제 날짜 기준은 적용하지 않는 순서형 모의 시험입니다.</p></div>
+<p id="demo-status" class="notice" role="status"></p><p id="demo-message" role="alert"></p>
+<div class="grid two"><form id="demo-entry" class="panel"><h2>다음 모의 구간</h2><label>합성 시험값(분)<input name="value" type="number" required min="0" max="1440" step="1" value="20"></label><button class="primary" type="submit">구간 추가</button></form>
+<form id="demo-change" class="panel" hidden><h2>두 구간을 보고 규칙 변경</h2><p id="demo-evidence"></p><label>새 모의 규칙<textarea name="after_rule" required maxlength="1000"></textarea></label><label>두 기록을 보고 바꾸는 이유<textarea name="reason" required maxlength="1000"></textarea></label><button class="primary" type="submit">근거와 변경 저장</button></form></div>
+<div id="demo-summary" class="stat-grid"></div><div id="demo-records" class="panel"></div><div id="demo-rule" class="panel" hidden></div>
+<div class="panel"><h2>완료 뒤 확인</h2><p>예시 합성값 20·30·30·40·50을 입력하면 합계 170분, 전체 평균 34분, 변경 전 평균 25분, 변경 후 평균 40분, 평균 차이 +15분입니다. 이 차이는 계산 시험 결과이며 실제 활동 개선 효과가 아닙니다.</p><button type="button" id="demo-export" class="primary">모의 체험 JSON 받기</button><button type="button" id="demo-reset" class="secondary">모의 체험 처음부터</button><p>실제 사용은 본인 계정의 05 화면에서 진행합니다. 과제의 실제 5일 사용 조건은 별개로 남습니다.</p></div></section></main></div></body></html>
