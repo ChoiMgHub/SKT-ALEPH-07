@@ -7,6 +7,12 @@ test('published evidence identifies its isolated environment and includes paired
   assert.equal(report.cleanup.filter(c=>c.deleted&&c.old_session_rejected).length,2);
   const hashes=report.password_storage.rows.map(r=>r.password_hash);assert.equal(hashes.length,2);
   for(const h of hashes)assert.equal(h,'[REDACTED: private evidence only]');
+  assert.equal(report.paired_access_checks.length,6);
+  for(const pair of report.paired_access_checks){
+    const allowed=report.requests[pair.allowed_request_index],denied=report.requests[pair.denied_request_index];
+    assert.equal(allowed.method,denied.method);assert.equal(allowed.response.status,200);assert.equal(denied.response.status,404);
+    if(pair.method!=='DELETE')assert.equal(allowed.url,denied.url);
+  }
   assert.equal(report.password_storage.pass,true);assert.equal(report.password_storage.same_test_password,true);
   assert.ok(!JSON.stringify(report).match(/verify_[a-z0-9_]+|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/i));
   const before=report.requests.find(r=>r.label==='로그아웃 전 같은 쿠키 조회'),after=report.requests.find(r=>r.label==='로그아웃 뒤 원래 쿠키 재전송');

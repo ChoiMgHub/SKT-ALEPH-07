@@ -22,10 +22,11 @@ test('one-day simulation refuses invalid values, a third step before change and 
   s=changeDemoRule(s,'r','reason');assert.throws(()=>changeDemoRule(s,'r2','reason'));
   for(const n of [1,2,3])s=addDemoEntry(s,n);assert.throws(()=>addDemoEntry(s,4));
 });
-test('public one-day UI completes without any account API and renders input as text',t=>{
+for(const ending of ['LF','CRLF'])test(`public one-day UI completes without any account API and renders input as text (${ending})`,t=>{
   const dom=new JSDOM(readFileSync(new URL('../public/one-day-demo.html',import.meta.url),'utf8'),{url:'https://example.test/one-day-demo.html',runScripts:'outside-only'});t.after(()=>dom.window.close());
   const w=dom.window,d=w.document;w.fetch=()=>assert.fail('simulation must never access account APIs');
-  w.eval(readFileSync(new URL('../public/study-demo-model.js',import.meta.url),'utf8').replace(/^export /gm,'')+'\n'+readFileSync(new URL('../public/study-demo.js',import.meta.url),'utf8').replace(/^import .*;\n/,''));
+  const script=name=>{const text=readFileSync(new URL('../public/'+name,import.meta.url),'utf8').replace(/\r\n?/g,'\n');return ending==='CRLF'?text.replace(/\n/g,'\r\n'):text;};
+  w.eval(script('study-demo-model.js').replace(/^export /gm,'')+'\n'+script('study-demo.js').replace(/^import [^\r\n]*;\r?\n/,''));
   const submit=(form)=>form.dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));const entry=d.querySelector('#demo-entry');
   for(const v of [20,30]){entry.elements.namedItem('value').value=String(v);submit(entry);}
   assert.equal(entry.querySelector('button').disabled,true);

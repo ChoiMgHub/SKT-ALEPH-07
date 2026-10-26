@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const read = path => readFileSync(resolve(root, path), 'utf8');
+const read = path => readFileSync(resolve(root, path), 'utf8').replace(/\r\n?/g, '\n');
 const assets = {};
 const types={html:'text/html',css:'text/css',js:'application/javascript',json:'application/json'};
 for(const name of readdirSync(resolve(root,'public'))) {

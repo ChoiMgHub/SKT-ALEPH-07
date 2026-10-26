@@ -37,9 +37,20 @@ try {
     if(value&&typeof value==='object'&&!Array.isArray(value))return Object.fromEntries(Object.entries(value).map(([k,v])=>[anonymousText(k),v]));
     return value;
   });
+  report.password_storage.sample_scope='두 저장값의 비교는 격리 시험 계정에서 수행했습니다. 원본 저장 해시·salt는 .private/auth-evidence-ai.json에 보관하며 공개본에서는 제외합니다.';
   report.public_redaction='계정명·자료 ID는 일관된 익명 표지로 바꾸고 저장 해시·내용 해시는 공개하지 않았습니다. 원본은 .private/auth-evidence-ai.json에 비공개로 보관합니다.';
+  report.paired_access_checks=[];
+  for(const [attacker,owner] of [['A','B'],['B','A']])for(const operation of ['조회','수정','삭제']){
+    const allowed=report.requests.findIndex(r=>r.label===`${owner} 본인 자료 ${operation}`);
+    const denied=report.requests.findIndex(r=>r.label===`temporary_${attacker} → temporary_${owner} ${operation}`);
+    assert.ok(allowed>=0&&denied>=0);assert.equal(report.requests[allowed].response.status,200);assert.equal(report.requests[denied].response.status,404);
+    report.paired_access_checks.push({case:`${attacker} → ${owner} ${operation}`,allowed_request_index:allowed,denied_request_index:denied,
+      method:report.requests[denied].method,allowed_status:200,denied_status:404,
+      target_note:operation==='삭제'?'허용은 소유자 자신의 별도 삭제 시험 항목, 거부는 피해 계정의 보존할 항목. 같은 URL의 삭제 성공이라고 주장하지 않음.':'소유자와 타 계정이 같은 대상 URL에 요청함.'});
+  }
   const json=JSON.stringify(report,null,2)+'\n';
-  assert.ok(!/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|verify_[a-z0-9_]+|pbkdf2-sha512\$100000\$[a-f0-9]{32}\$[a-f0-9]{64}/i.test(json),'original identifiers or hashes remain in public evidence');
+  assert.ok(!/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|verify_[a-z0-9_]+|pbkdf2-sha512\$100000\$[a-f0-9]{32}\$[a-f0-9]{64}/i.test(json),'original account identifiers or stored hashes remain in public evidence');
+  for(const value of secrets)if(value)assert.ok(!json.includes(value),'credential found in public evidence');
   const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const block=(title,data)=>`<details class="panel"><summary>${escape(title)}</summary><pre>${escape(JSON.stringify(data,null,2))}</pre></details>`;
   const requests=report.requests;
@@ -47,7 +58,7 @@ try {
     ['① 가입·로그인·중복·동일 실패 문구',requests.filter(r=>/가입|틀린 비밀번호|없는 아이디/.test(r.label)||/^[AB] 로그인$/.test(r.label))],
     ['② 같은 임시 비밀번호의 서로 다른 저장 해시·salt',report.password_storage],
     ['③ 같은 주소·방식의 로그인 전후·로그아웃 재전송',requests.filter(r=>/로그아웃 전|로그아웃 뒤|A 로그아웃|익명 자료 화면|익명 \/api\/state/.test(r.label))],
-    ['④ A↔B 조회·수정·삭제 거부와 소유자의 허용',requests.filter(r=>/→|본인 자료/.test(r.label))],
+    ['④ 여섯 양방향 접근 검사: 허용·거절 대응과 원문', {pairs:report.paired_access_checks,requests:requests.filter(r=>/→|본인 자료/.test(r.label))}],
     ['⑤ 거절 전후 피해 자료의 건수·내용·해시와 소유자 위조',report.checks.filter(c=>/행 수와 내용|위조|소유자 연결/.test(c.name))],
     ['⑥ 비밀번호 변경 뒤 이전 세션 거부·새 비밀번호 허용',requests.filter(r=>/이전 세션|비밀번호 변경|새 비밀번호/.test(r.label))]
   ];

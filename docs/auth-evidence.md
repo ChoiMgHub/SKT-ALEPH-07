@@ -2,7 +2,7 @@
 
 AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청·응답입니다. example.test는 시험 주소이며 공개 Cloudflare 배포 점검이나 사용자의 실제 사용 기록이 아닙니다.
 
-실행 시각: 2026-10-26T07:49:56.379Z ~ 2026-10-26T07:49:57.498Z (UTC). 결과: 49 PASS, 임시 계정 정리 2/2.
+실행 시각: 2026-10-26T08:08:53.114Z ~ 2026-10-26T08:08:54.221Z (UTC). 결과: 49 PASS, 임시 계정 정리 2/2.
 
 비밀번호·쿠키·세션 원문·pepper는 가렸다. 계정명·자료 ID는 일관된 익명 표지로 바꾸고 저장 해시·내용 해시는 공개하지 않았습니다. 원본은 .private/auth-evidence-ai.json에 비공개로 보관합니다. 사용자가 공개 배포에서 실행한 원격 보고서와 구분한다.
 
@@ -57,7 +57,7 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
           "id": "[ID_7]",
           "username": "[temporary_A]"
         },
-        "expires_at": "2026-10-27T07:49:56.525Z"
+        "expires_at": "2026-10-27T08:08:53.259Z"
       },
       "set_cookie": "[REDACTED]"
     }
@@ -109,7 +109,7 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
           "id": "[ID_8]",
           "username": "[temporary_B]"
         },
-        "expires_at": "2026-10-27T07:49:56.701Z"
+        "expires_at": "2026-10-27T08:08:53.448Z"
       },
       "set_cookie": "[REDACTED]"
     }
@@ -187,7 +187,7 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
 
 ```json
 {
-  "checked_at": "2026-10-26T07:49:57.094Z",
+  "checked_at": "2026-10-26T08:08:53.789Z",
   "same_test_password": true,
   "rows": [
     {
@@ -199,7 +199,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
       "password_hash": "[REDACTED: private evidence only]"
     }
   ],
-  "pass": true
+  "pass": true,
+  "sample_scope": "두 저장값의 비교는 격리 시험 계정에서 수행했습니다. 원본 저장 해시·salt는 .private/auth-evidence-ai.json에 보관하며 공개본에서는 제외합니다."
 }
 ```
 
@@ -268,8 +269,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "priority": "보통",
             "success_criteria": "자동 접근통제 점검용 합성 자료",
             "expected_minutes": 0,
-            "created_at": "2026-10-26T07:49:56.534Z",
-            "updated_at": "2026-10-26T07:49:56.534Z"
+            "created_at": "2026-10-26T08:08:53.269Z",
+            "updated_at": "2026-10-26T08:08:53.269Z"
           }
         ],
         "plan_revisions": [],
@@ -284,9 +285,9 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "expected_minutes": 0,
             "status": "todo",
             "blocked_reason": "",
-            "deleted_at": "2026-10-26T07:49:56.574Z",
-            "created_at": "2026-10-26T07:49:56.569Z",
-            "updated_at": "2026-10-26T07:49:56.574Z"
+            "deleted_at": "2026-10-26T08:08:53.317Z",
+            "created_at": "2026-10-26T08:08:53.310Z",
+            "updated_at": "2026-10-26T08:08:53.317Z"
           },
           {
             "id": "[ID_6]",
@@ -299,8 +300,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "status": "todo",
             "blocked_reason": "",
             "deleted_at": null,
-            "created_at": "2026-10-26T07:49:56.542Z",
-            "updated_at": "2026-10-26T07:49:56.562Z"
+            "created_at": "2026-10-26T08:08:53.280Z",
+            "updated_at": "2026-10-26T08:08:53.304Z"
           }
         ],
         "execution_logs": [],
@@ -329,7 +330,7 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "difference_minutes": 0
           }
         },
-        "evaluated_at": "2026-10-26T07:49:57.345Z"
+        "evaluated_at": "2026-10-26T08:08:54.058Z"
       }
     }
   },
@@ -375,277 +376,335 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
 ]
 ```
 
-## ④ A↔B 조회·수정·삭제 거부와 소유자의 허용
+## ④ 여섯 양방향 접근 검사: 허용·거절 대응과 원문
 
 ```json
-[
-  {
-    "label": "A 본인 자료 조회",
-    "actor": "temporary_A",
-    "method": "GET",
-    "url": "https://example.test/api/tasks/[ID_6]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
-      }
+{
+  "pairs": [
+    {
+      "case": "A → B 조회",
+      "allowed_request_index": 13,
+      "denied_request_index": 25,
+      "method": "GET",
+      "allowed_status": 200,
+      "denied_status": 404,
+      "target_note": "소유자와 타 계정이 같은 대상 URL에 요청함."
     },
-    "response": {
-      "status": 200,
-      "body": {
-        "id": "[ID_6]",
-        "plan_id": "[ID_4]",
-        "title": "[자동 권한 점검] A의 할 일",
-        "due_at": null,
-        "priority": "보통",
-        "category": "자동 권한 점검",
-        "expected_minutes": 0,
-        "status": "todo",
-        "blocked_reason": "",
-        "deleted_at": null,
-        "created_at": "2026-10-26T07:49:56.542Z",
-        "updated_at": "2026-10-26T07:49:56.542Z"
-      }
+    {
+      "case": "A → B 수정",
+      "allowed_request_index": 14,
+      "denied_request_index": 26,
+      "method": "PATCH",
+      "allowed_status": 200,
+      "denied_status": 404,
+      "target_note": "소유자와 타 계정이 같은 대상 URL에 요청함."
+    },
+    {
+      "case": "A → B 삭제",
+      "allowed_request_index": 16,
+      "denied_request_index": 27,
+      "method": "DELETE",
+      "allowed_status": 200,
+      "denied_status": 404,
+      "target_note": "허용은 소유자 자신의 별도 삭제 시험 항목, 거부는 피해 계정의 보존할 항목. 같은 URL의 삭제 성공이라고 주장하지 않음."
+    },
+    {
+      "case": "B → A 조회",
+      "allowed_request_index": 5,
+      "denied_request_index": 32,
+      "method": "GET",
+      "allowed_status": 200,
+      "denied_status": 404,
+      "target_note": "소유자와 타 계정이 같은 대상 URL에 요청함."
+    },
+    {
+      "case": "B → A 수정",
+      "allowed_request_index": 6,
+      "denied_request_index": 33,
+      "method": "PATCH",
+      "allowed_status": 200,
+      "denied_status": 404,
+      "target_note": "소유자와 타 계정이 같은 대상 URL에 요청함."
+    },
+    {
+      "case": "B → A 삭제",
+      "allowed_request_index": 8,
+      "denied_request_index": 34,
+      "method": "DELETE",
+      "allowed_status": 200,
+      "denied_status": 404,
+      "target_note": "허용은 소유자 자신의 별도 삭제 시험 항목, 거부는 피해 계정의 보존할 항목. 같은 URL의 삭제 성공이라고 주장하지 않음."
     }
-  },
-  {
-    "label": "A 본인 자료 수정",
-    "actor": "temporary_A",
-    "method": "PATCH",
-    "url": "https://example.test/api/tasks/[ID_6]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
+  ],
+  "requests": [
+    {
+      "label": "A 본인 자료 조회",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
       },
-      "body": {
-        "title": "[자동 권한 점검] A 수정 확인"
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_6]",
+          "plan_id": "[ID_4]",
+          "title": "[자동 권한 점검] A의 할 일",
+          "due_at": null,
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo",
+          "blocked_reason": "",
+          "deleted_at": null,
+          "created_at": "2026-10-26T08:08:53.280Z",
+          "updated_at": "2026-10-26T08:08:53.280Z"
+        }
       }
     },
-    "response": {
-      "status": 200,
-      "body": {
-        "id": "[ID_6]",
-        "updated": true
-      }
-    }
-  },
-  {
-    "label": "A 본인 자료 삭제",
-    "actor": "temporary_A",
-    "method": "DELETE",
-    "url": "https://example.test/api/tasks/[ID_5]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
-      }
-    },
-    "response": {
-      "status": 200,
-      "body": {
-        "id": "[ID_5]",
-        "deleted": true
-      }
-    }
-  },
-  {
-    "label": "B 본인 자료 조회",
-    "actor": "temporary_B",
-    "method": "GET",
-    "url": "https://example.test/api/tasks/[ID_3]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
-      }
-    },
-    "response": {
-      "status": 200,
-      "body": {
-        "id": "[ID_3]",
-        "plan_id": "[ID_1]",
-        "title": "[자동 권한 점검] B의 할 일",
-        "due_at": null,
-        "priority": "보통",
-        "category": "자동 권한 점검",
-        "expected_minutes": 0,
-        "status": "todo",
-        "blocked_reason": "",
-        "deleted_at": null,
-        "created_at": "2026-10-26T07:49:56.717Z",
-        "updated_at": "2026-10-26T07:49:56.717Z"
-      }
-    }
-  },
-  {
-    "label": "B 본인 자료 수정",
-    "actor": "temporary_B",
-    "method": "PATCH",
-    "url": "https://example.test/api/tasks/[ID_3]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
+    {
+      "label": "A 본인 자료 수정",
+      "actor": "temporary_A",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "[자동 권한 점검] A 수정 확인"
+        }
       },
-      "body": {
-        "title": "[자동 권한 점검] B 수정 확인"
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_6]",
+          "updated": true
+        }
       }
     },
-    "response": {
-      "status": 200,
-      "body": {
-        "id": "[ID_3]",
-        "updated": true
-      }
-    }
-  },
-  {
-    "label": "B 본인 자료 삭제",
-    "actor": "temporary_B",
-    "method": "DELETE",
-    "url": "https://example.test/api/tasks/[ID_2]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
-      }
-    },
-    "response": {
-      "status": 200,
-      "body": {
-        "id": "[ID_2]",
-        "deleted": true
-      }
-    }
-  },
-  {
-    "label": "temporary_A → temporary_B 조회",
-    "actor": "temporary_A",
-    "method": "GET",
-    "url": "https://example.test/api/tasks/[ID_3]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
-      }
-    },
-    "response": {
-      "status": 404,
-      "body": {
-        "error": "자료를 찾을 수 없습니다."
-      }
-    }
-  },
-  {
-    "label": "temporary_A → temporary_B 수정",
-    "actor": "temporary_A",
-    "method": "PATCH",
-    "url": "https://example.test/api/tasks/[ID_3]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
+    {
+      "label": "A 본인 자료 삭제",
+      "actor": "temporary_A",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_5]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
       },
-      "body": {
-        "title": "차단돼야 하는 자동 점검 수정"
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_5]",
+          "deleted": true
+        }
       }
     },
-    "response": {
-      "status": 404,
-      "body": {
-        "error": "할 일을 찾을 수 없습니다."
-      }
-    }
-  },
-  {
-    "label": "temporary_A → temporary_B 삭제",
-    "actor": "temporary_A",
-    "method": "DELETE",
-    "url": "https://example.test/api/tasks/[ID_3]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
-      }
-    },
-    "response": {
-      "status": 404,
-      "body": {
-        "error": "할 일을 찾을 수 없습니다."
-      }
-    }
-  },
-  {
-    "label": "temporary_B → temporary_A 조회",
-    "actor": "temporary_B",
-    "method": "GET",
-    "url": "https://example.test/api/tasks/[ID_6]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
-      }
-    },
-    "response": {
-      "status": 404,
-      "body": {
-        "error": "자료를 찾을 수 없습니다."
-      }
-    }
-  },
-  {
-    "label": "temporary_B → temporary_A 수정",
-    "actor": "temporary_B",
-    "method": "PATCH",
-    "url": "https://example.test/api/tasks/[ID_6]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
+    {
+      "label": "B 본인 자료 조회",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
       },
-      "body": {
-        "title": "차단돼야 하는 자동 점검 수정"
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_3]",
+          "plan_id": "[ID_1]",
+          "title": "[자동 권한 점검] B의 할 일",
+          "due_at": null,
+          "priority": "보통",
+          "category": "자동 권한 점검",
+          "expected_minutes": 0,
+          "status": "todo",
+          "blocked_reason": "",
+          "deleted_at": null,
+          "created_at": "2026-10-26T08:08:53.462Z",
+          "updated_at": "2026-10-26T08:08:53.462Z"
+        }
       }
     },
-    "response": {
-      "status": 404,
-      "body": {
-        "error": "할 일을 찾을 수 없습니다."
-      }
-    }
-  },
-  {
-    "label": "temporary_B → temporary_A 삭제",
-    "actor": "temporary_B",
-    "method": "DELETE",
-    "url": "https://example.test/api/tasks/[ID_6]",
-    "request": {
-      "headers": {
-        "content-type": "application/json",
-        "x-requested-with": "aleph-diary",
-        "cookie": "[REDACTED]"
+    {
+      "label": "B 본인 자료 수정",
+      "actor": "temporary_B",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "[자동 권한 점검] B 수정 확인"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_3]",
+          "updated": true
+        }
       }
     },
-    "response": {
-      "status": 404,
-      "body": {
-        "error": "할 일을 찾을 수 없습니다."
+    {
+      "label": "B 본인 자료 삭제",
+      "actor": "temporary_B",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_2]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "[ID_2]",
+          "deleted": true
+        }
+      }
+    },
+    {
+      "label": "temporary_A → temporary_B 조회",
+      "actor": "temporary_A",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_A → temporary_B 수정",
+      "actor": "temporary_A",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "차단돼야 하는 자동 점검 수정"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_A → temporary_B 삭제",
+      "actor": "temporary_A",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_3]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_B → temporary_A 조회",
+      "actor": "temporary_B",
+      "method": "GET",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_B → temporary_A 수정",
+      "actor": "temporary_B",
+      "method": "PATCH",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        },
+        "body": {
+          "title": "차단돼야 하는 자동 점검 수정"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
+      }
+    },
+    {
+      "label": "temporary_B → temporary_A 삭제",
+      "actor": "temporary_B",
+      "method": "DELETE",
+      "url": "https://example.test/api/tasks/[ID_6]",
+      "request": {
+        "headers": {
+          "content-type": "application/json",
+          "x-requested-with": "aleph-diary",
+          "cookie": "[REDACTED]"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "할 일을 찾을 수 없습니다."
+        }
       }
     }
-  }
-]
+  ]
+}
 ```
 
 ## ⑤ 거절 전후 피해 자료의 건수·내용·해시와 소유자 위조
@@ -675,8 +734,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "priority": "보통",
             "success_criteria": "자동 접근통제 점검용 합성 자료",
             "expected_minutes": 0,
-            "created_at": "2026-10-26T07:49:56.710Z",
-            "updated_at": "2026-10-26T07:49:56.710Z"
+            "created_at": "2026-10-26T08:08:53.456Z",
+            "updated_at": "2026-10-26T08:08:53.456Z"
           }
         ],
         "plan_revisions": [],
@@ -691,9 +750,9 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "expected_minutes": 0,
             "status": "todo",
             "blocked_reason": "",
-            "deleted_at": "2026-10-26T07:49:56.742Z",
-            "created_at": "2026-10-26T07:49:56.737Z",
-            "updated_at": "2026-10-26T07:49:56.742Z"
+            "deleted_at": "2026-10-26T08:08:53.484Z",
+            "created_at": "2026-10-26T08:08:53.479Z",
+            "updated_at": "2026-10-26T08:08:53.484Z"
           },
           {
             "id": "[ID_3]",
@@ -706,8 +765,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "status": "todo",
             "blocked_reason": "",
             "deleted_at": null,
-            "created_at": "2026-10-26T07:49:56.717Z",
-            "updated_at": "2026-10-26T07:49:56.731Z"
+            "created_at": "2026-10-26T08:08:53.462Z",
+            "updated_at": "2026-10-26T08:08:53.473Z"
           }
         ],
         "execution_logs": [],
@@ -737,8 +796,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "priority": "보통",
             "success_criteria": "자동 접근통제 점검용 합성 자료",
             "expected_minutes": 0,
-            "created_at": "2026-10-26T07:49:56.710Z",
-            "updated_at": "2026-10-26T07:49:56.710Z"
+            "created_at": "2026-10-26T08:08:53.456Z",
+            "updated_at": "2026-10-26T08:08:53.456Z"
           }
         ],
         "plan_revisions": [],
@@ -753,9 +812,9 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "expected_minutes": 0,
             "status": "todo",
             "blocked_reason": "",
-            "deleted_at": "2026-10-26T07:49:56.742Z",
-            "created_at": "2026-10-26T07:49:56.737Z",
-            "updated_at": "2026-10-26T07:49:56.742Z"
+            "deleted_at": "2026-10-26T08:08:53.484Z",
+            "created_at": "2026-10-26T08:08:53.479Z",
+            "updated_at": "2026-10-26T08:08:53.484Z"
           },
           {
             "id": "[ID_3]",
@@ -768,8 +827,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "status": "todo",
             "blocked_reason": "",
             "deleted_at": null,
-            "created_at": "2026-10-26T07:49:56.717Z",
-            "updated_at": "2026-10-26T07:49:56.731Z"
+            "created_at": "2026-10-26T08:08:53.462Z",
+            "updated_at": "2026-10-26T08:08:53.473Z"
           }
         ],
         "execution_logs": [],
@@ -811,8 +870,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "priority": "보통",
             "success_criteria": "자동 접근통제 점검용 합성 자료",
             "expected_minutes": 0,
-            "created_at": "2026-10-26T07:49:56.534Z",
-            "updated_at": "2026-10-26T07:49:56.534Z"
+            "created_at": "2026-10-26T08:08:53.269Z",
+            "updated_at": "2026-10-26T08:08:53.269Z"
           }
         ],
         "plan_revisions": [],
@@ -827,9 +886,9 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "expected_minutes": 0,
             "status": "todo",
             "blocked_reason": "",
-            "deleted_at": "2026-10-26T07:49:56.574Z",
-            "created_at": "2026-10-26T07:49:56.569Z",
-            "updated_at": "2026-10-26T07:49:56.574Z"
+            "deleted_at": "2026-10-26T08:08:53.317Z",
+            "created_at": "2026-10-26T08:08:53.310Z",
+            "updated_at": "2026-10-26T08:08:53.317Z"
           },
           {
             "id": "[ID_6]",
@@ -842,8 +901,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "status": "todo",
             "blocked_reason": "",
             "deleted_at": null,
-            "created_at": "2026-10-26T07:49:56.542Z",
-            "updated_at": "2026-10-26T07:49:56.562Z"
+            "created_at": "2026-10-26T08:08:53.280Z",
+            "updated_at": "2026-10-26T08:08:53.304Z"
           }
         ],
         "execution_logs": [],
@@ -873,8 +932,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "priority": "보통",
             "success_criteria": "자동 접근통제 점검용 합성 자료",
             "expected_minutes": 0,
-            "created_at": "2026-10-26T07:49:56.534Z",
-            "updated_at": "2026-10-26T07:49:56.534Z"
+            "created_at": "2026-10-26T08:08:53.269Z",
+            "updated_at": "2026-10-26T08:08:53.269Z"
           }
         ],
         "plan_revisions": [],
@@ -889,9 +948,9 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "expected_minutes": 0,
             "status": "todo",
             "blocked_reason": "",
-            "deleted_at": "2026-10-26T07:49:56.574Z",
-            "created_at": "2026-10-26T07:49:56.569Z",
-            "updated_at": "2026-10-26T07:49:56.574Z"
+            "deleted_at": "2026-10-26T08:08:53.317Z",
+            "created_at": "2026-10-26T08:08:53.310Z",
+            "updated_at": "2026-10-26T08:08:53.317Z"
           },
           {
             "id": "[ID_6]",
@@ -904,8 +963,8 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
             "status": "todo",
             "blocked_reason": "",
             "deleted_at": null,
-            "created_at": "2026-10-26T07:49:56.542Z",
-            "updated_at": "2026-10-26T07:49:56.562Z"
+            "created_at": "2026-10-26T08:08:53.280Z",
+            "updated_at": "2026-10-26T08:08:53.304Z"
           }
         ],
         "execution_logs": [],
@@ -1016,7 +1075,7 @@ AI가 격리된 workerd/D1의 임시 계정으로 생성한 실제 실행 요청
           "id": "[ID_7]",
           "username": "[temporary_A]"
         },
-        "expires_at": "2026-10-27T07:49:57.328Z"
+        "expires_at": "2026-10-27T08:08:54.040Z"
       },
       "set_cookie": "[REDACTED]"
     }
