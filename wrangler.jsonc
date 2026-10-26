@@ -1,9 +1,16 @@
 {
-  "name": "skt-aleph-06",
+  "name": "skt-aleph-07",
   "main": "src/worker.js",
   "compatibility_date": "2026-10-21",
-  "assets": { "directory": "./public", "binding": "ASSETS" },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
   "d1_databases": [
-    { "binding": "DB", "database_name": "aleph-diary", "database_id": "42d293c5-3e2e-470a-bf6c-41dc6a01f23d" }
+    {
+      "binding": "DB",
+      "database_name": "aleph-diary-07",
+      "database_id": "e8f195cd-4038-422c-bd47-70f5ebebc3ea"
+    }
   ]
 }

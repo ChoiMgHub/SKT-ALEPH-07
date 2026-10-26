@@ -1,5 +1,5 @@
 {
-  "name": "skt-aleph-06",
+  "name": "skt-aleph-07",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -10,8 +10,8 @@
     "build": "node scripts/build-worker.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "db:local": "wrangler d1 execute aleph-diary --local --file=./schema.sql",
-    "db:remote": "wrangler d1 execute aleph-diary --remote --file=./schema.sql",
+    "db:local": "wrangler d1 execute aleph-diary-07 --local --file=./schema.sql",
+    "db:remote": "wrangler d1 execute aleph-diary-07 --remote --file=./schema.sql",
     "test": "node --test"
   },
   "devDependencies": {
