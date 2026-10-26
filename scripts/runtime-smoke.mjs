@@ -4,6 +4,7 @@ import * as miniflare from 'miniflare';
 import { readFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
 import assert from 'node:assert/strict';
+import { verifyAuth } from './verify-auth.mjs';
 const options = { modules:true, scriptPath:new URL('../dist/worker.js',import.meta.url).pathname,
   compatibilityDate:'2026-10-21', compatibilityFlags:['nodejs_compat'], d1Databases:['DB'],
   bindings:{AUTH_PEPPER:randomBytes(32).toString('hex')} };
@@ -29,4 +30,8 @@ try {
   await send('/api/auth/logout',{},cookie);
   assert.equal((await send('/api/state',null,cookie)).status,401);
   console.log('workerd/D1: signup, login, protected API/page, anonymous denial and logout replay passed.');
+  const report=await verifyAuth({baseUrl:'https://example.test',fetchImpl:(url,init)=>mf.dispatchFetch(url.toString(),init),
+    readHashes:async usernames=>(await db.prepare('SELECT username,password_hash FROM users WHERE username IN (?,?) ORDER BY username').bind(...usernames).all()).results});
+  assert.equal(report.passed,true,JSON.stringify({errors:report.errors,failed:report.checks.filter(c=>!c.pass),cleanup:report.cleanup}));
+  console.log(`workerd/D1: real-request verification ${report.checks.length} checks passed; temporary accounts cleaned up.`);
 } finally { await mf.dispose(); }

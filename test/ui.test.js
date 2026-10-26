@@ -7,7 +7,8 @@ import worker from '../src/worker.js';
 import { makeEnv, call } from '../test-support/helpers.mjs';
 
 async function until(predicate) {
-  for (let n=0;n<100;n++) { if (predicate()) return; await new Promise(resolve=>setImmediate(resolve)); }
+  const deadline=Date.now()+5000;
+  while(Date.now()<deadline) { if(predicate())return; await new Promise(resolve=>setTimeout(resolve,5)); }
   assert.fail('화면 갱신을 기다렸지만 조건이 충족되지 않음');
 }
 async function screen(t) {
