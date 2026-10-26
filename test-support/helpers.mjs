@@ -14,6 +14,7 @@ export function makeEnv({ anonymous = false } = {}) {
   const db = new DatabaseSync(':memory:');
   db.exec(readFileSync(new URL('../schema.sql', import.meta.url), 'utf8'));
   db.exec(readFileSync(new URL('../schema-auth.sql', import.meta.url), 'utf8'));
+  db.exec(readFileSync(new URL('../schema-study.sql', import.meta.url), 'utf8'));
   const token = randomBytes(32).toString('hex');
   if (!anonymous) {
     db.prepare('INSERT INTO users VALUES (?, ?, ?, ?)').run('fixture-user', 'fixture_user', 'fixture-not-a-password', new Date().toISOString());

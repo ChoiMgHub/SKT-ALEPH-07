@@ -8,6 +8,7 @@ let evidenceKind = null;
 let pendingLogRequestId = null;
 let sessionUser = null;
 let sessionExpiryTimer = null;
+let studyState = null;
 
 function node(tag, className = '', content = '') {
   const result = document.createElement(tag);
@@ -341,6 +342,17 @@ bootstrapSession();
 function clearSessionView() {
   clearTimeout(sessionExpiryTimer); sessionExpiryTimer = null;
   sessionUser = null;
+  studyState = null;
+  for (const id of ['study-config-view','study-change-view','study-summary','study-records','study-rules','study-status']) $(id).replaceChildren();
+  $('study-change-evidence').textContent = '';
+  $('study-today').textContent = '';
+  $('study-value-label').textContent = '실제로 측정한 시간(분)';
+  $('source-reflection-note').textContent = '';
+  $('study-config-form').hidden = false;
+  $('study-config-view').hidden = true;
+  $('study-entry-form').hidden = true;
+  $('study-change-form').hidden = true;
+  $('study-change-view').hidden = true;
   state = { plans: [], plan_revisions: [], tasks: [], execution_logs: [], reflections: [], task_completions: [], reflection_links: [], summary: {}, summaries: {} };
   selectedPlanId = null; reviewPlanId = null; newPlanMode = false; evidenceKind = null; pendingLogRequestId = null;
   $('diary-panel').hidden = true; $('auth-panel').hidden = false;
@@ -357,6 +369,7 @@ async function activateSession(data) {
   await refresh();
   const history = await api('/api/imports');
   $('import-history').replaceChildren(...history.map(row => node('p', 'hint', `가져오기 ${dateText(row.imported_at)} · ${row.counts_json}`)));
+  await refreshStudy();
   $('auth-panel').hidden = true; $('diary-panel').hidden = false;
   const remaining = Date.parse(data.expires_at) - Date.now();
   if (remaining <= 0) { clearSessionView(); show('로그인이 만료됐습니다. 다시 로그인해 주세요.'); return; }
@@ -430,3 +443,63 @@ $('import-form').addEventListener('submit', async event => {
   finally { submit.disabled = false; }
 });
 window.addEventListener('pageshow', event => { if(event.persisted) { clearSessionView(); bootstrapSession(); } });
+
+function studyDateTime(value) { return new Date(value).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',dateStyle:'medium',timeStyle:'medium'}); }
+async function refreshStudy() {
+  studyState = await api('/api/study');
+  renderStudy();
+}
+function renderStudy() {
+  const s=studyState;if(!s)return;
+  const configured=Boolean(s.study),count=s.entries.length,today=s.entries.find(e=>e.record_date===s.today);
+  const config=$('study-config-form');config.hidden=configured&&count>0;
+  if(configured&&count===0)for(const key of ['question','metric_name','initial_rule'])setFormValue(config,key,s.study[key]);
+  const view=$('study-config-view');view.replaceChildren();view.hidden=!configured;
+  if(configured)add(view,node('h3','',s.study.question),node('p','',`관찰 지표: ${s.study.metric_name} · 단위: ${s.study.unit}`),node('p','',`최초 계획 규칙: ${s.study.initial_rule}`));
+  $('study-status').textContent=!configured?'먼저 질문·시간 지표·계획 규칙을 직접 정해 저장하세요.':count===5?'서로 다른 날짜 5일 기록을 완료했습니다.':count===2&&!s.rule_change?'2일차까지 기록했습니다. 규칙 변경을 저장한 뒤 3일차를 기록하세요.':today?`오늘(${s.today}, 서울) 기록 완료 · 전체 ${count}/5일`:`오늘은 ${s.today}(서울)입니다. 실제 활동 뒤 ${count+1}일차를 기록하세요. 현재 ${count}/5일`;
+  const entry=$('study-entry-form');entry.hidden=!configured||count===5;
+  $('study-today').textContent=`서버 기준 서울 날짜: ${s.today} · 날짜는 직접 바꾸지 않습니다.`;
+  $('study-value-label').textContent=configured?`${s.study.metric_name}(분)`:'실제로 측정한 시간(분)';
+  entry.querySelector('button').disabled=Boolean(today)||(count===2&&!s.rule_change);
+  if(today)setFormValue(entry,'value',today.value);
+  const change=$('study-change-form');change.hidden=count!==2||Boolean(s.rule_change);
+  if(count>=2)$('study-change-evidence').textContent=`1일차 ${s.entries[0].record_date}: ${s.entries[0].value}분, 2일차 ${s.entries[1].record_date}: ${s.entries[1].value}분. 저장 시 이 두 기록의 번호와 내용을 함께 보존합니다.`;
+  const changeView=$('study-change-view');changeView.replaceChildren();changeView.hidden=!s.rule_change;
+  if(s.rule_change) {
+    const c=s.rule_change;
+    add(changeView,node('h3','','저장된 계획 규칙 변경'),node('p','',`변경 전: ${c.before_rule}`),node('p','',`변경 후: ${c.after_rule}`),node('p','',`이유: ${c.reason}`),node('p','hint',`변경 시각: ${studyDateTime(c.changed_at)} (서울)`));
+    const detail=node('details');add(detail,node('summary','','변경 근거 기록 번호'),node('p','hint',`1일차: ${c.day1_entry_id}`),node('p','hint',`2일차: ${c.day2_entry_id}`));changeView.append(detail);
+  }
+  const summary=$('study-summary');summary.replaceChildren();
+  if(configured) {
+    const value=n=>n===null?'아직 없음':`${n}분`;
+    for(const [label,n] of [[`기록된 ${count}일 합계`,s.summary.total.sum],[`기록된 ${count}일 평균`,s.summary.total.mean],[`변경 전 평균 (${s.summary.before.days}/2일)`,s.summary.before.mean],[`변경 후 평균 (${s.summary.after.days}/3일)`,s.summary.after.mean],['5일 완료 뒤 평균 차이',s.summary.mean_difference]]) {
+      const card=node('div','stat');add(card,node('span','',label),node('strong','',value(n)));summary.append(card);
+    }
+  }
+  const records=$('study-records');records.replaceChildren(node('h3','','실제 날짜별 기록'));
+  if(!count)records.append(node('p','hint','아직 실제 날짜 기록이 없습니다. 예시 숫자로 채우지 않습니다.'));
+  for(const [i,e] of s.entries.entries()) {
+    const card=node('article','item');card.id=`study-day-${e.id}`;
+    add(card,node('strong','',`${i+1}일차 · ${e.record_date} · ${e.value}분`));
+    const detail=node('details');add(detail,node('summary','','기록 근거'),node('p','hint',`기록 번호: ${e.id}`),node('p','hint',`서버 저장 시각: ${studyDateTime(e.recorded_at)} (서울)`));card.append(detail);records.append(card);
+  }
+  $('study-rules').replaceChildren(...Object.entries(s.rules).map(([key,value])=>node('li','hint',`${({timezone:'날짜 기준',unit:'단위',week_start:'주 시작',missing:'누락',duplicates:'중복',invalid:'유효값',rounding:'반올림',calculation:'계산',dates:'날짜',measurement:'측정'})[key]||key}: ${value}`)));
+}
+async function studySubmit(form,path,method,data,message) {
+  const button=form.querySelector('button');button.disabled=true;
+  try {await api(path,{method,body:JSON.stringify(data)});form.reset();await refreshStudy();show(message);}
+  catch(error){show(error.message,true);}
+  finally {button.disabled=false;if(studyState)renderStudy();}
+}
+$('study-config-form').addEventListener('submit',event=>{
+  event.preventDefault();studySubmit(event.currentTarget,'/api/study/config',studyState?.study?'PATCH':'POST',Object.fromEntries(new FormData(event.currentTarget)),'5일 기록 설정을 저장했습니다. 실제 활동 뒤 오늘의 기록을 남겨 주세요.');
+});
+$('study-entry-form').addEventListener('submit',event=>{
+  event.preventDefault();const field=event.currentTarget.elements.namedItem('value');
+  if(field.value.trim()===''){show('실제로 측정한 시간을 입력해 주세요.',true);return;}
+  studySubmit(event.currentTarget,'/api/study/entries','POST',{value:field.valueAsNumber},'오늘의 실제 기록을 저장했습니다.');
+});
+$('study-change-form').addEventListener('submit',event=>{
+  event.preventDefault();studySubmit(event.currentTarget,'/api/study/rule-change','POST',Object.fromEntries(new FormData(event.currentTarget)),'두 기록의 근거와 계획 규칙 변경을 저장했습니다. 다음 실제 날짜에 3일차를 기록해 주세요.');
+});

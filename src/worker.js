@@ -1,5 +1,6 @@
 import { HttpError, authenticate, checkWriteRequest, signup, login, logout, changePassword, boundedText } from './auth.js';
 import { importBackup } from './import.js';
+import { studyAction, studySnapshot } from './study.js';
 const jsonHeaders = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' };
 const allowedPriority = new Set(['낮음', '보통', '높음']);
 const allowedStatus = new Set(['todo', 'doing', 'done', 'blocked']);
@@ -128,6 +129,10 @@ async function handleApi(request, env, path) {
   const user = await authenticate(request, env);
   if (!user) return fail('로그인이 필요합니다.', 401);
   const userId = user.id;
+  if(path.startsWith('/api/study')) {
+    const result=await studyAction(db,userId,path,method,method==='GET'?{}:await body(request));
+    return response(result.data,result.status);
+  }
   if (path === '/api/auth/me' && method === 'GET') return response({ user: { id: userId, username: user.username }, expires_at: user.expires_at });
   if (path === '/api/auth/password' && method === 'POST') return response({ changed: true, login_required: true }, 200,
     { 'set-cookie': await changePassword(request, env, user, await body(request)) });
@@ -155,6 +160,7 @@ async function handleApi(request, env, path) {
   if (path === '/api/export' && method === 'GET') {
     const data = { schema_version: 'pds-schema-v2', exported_at: stamp(), ...await readState(db, userId) };
     data.imports = (await db.prepare('SELECT id, source_digest, counts_json, source_json, mappings_json, imported_at FROM imports WHERE user_id=? ORDER BY imported_at').bind(userId).all()).results;
+    data.study = await studySnapshot(db,userId);
     return response(data, 200, { 'content-disposition': 'attachment; filename="aleph-diary-export.json"' });
   }
 

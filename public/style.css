@@ -6,3 +6,8 @@
 [hidden] { display: none !important; }
 .account-bar { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; margin-bottom:1rem; }
 .account-bar button { margin-left:auto; }
+#study .panel { margin-bottom: 14px; }
+#study-summary .stat { cursor: default; }
+#study button:disabled { opacity: .55; cursor: not-allowed; }
+#study-config-view p, #study-change-view p { overflow-wrap: anywhere; }
+#study-records .item + .item { margin-top: 10px; }

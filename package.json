@@ -10,8 +10,8 @@
     "build": "node scripts/build-worker.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "db:local": "wrangler d1 execute aleph-diary-07 --local --file=./schema.sql && wrangler d1 execute aleph-diary-07 --local --file=./schema-auth.sql",
-    "db:remote": "wrangler d1 execute aleph-diary-07 --remote --file=./schema.sql && wrangler d1 execute aleph-diary-07 --remote --file=./schema-auth.sql",
+    "db:local": "wrangler d1 execute aleph-diary-07 --local --file=./schema.sql && wrangler d1 execute aleph-diary-07 --local --file=./schema-auth.sql && wrangler d1 execute aleph-diary-07 --local --file=./schema-study.sql",
+    "db:remote": "wrangler d1 execute aleph-diary-07 --remote --file=./schema.sql && wrangler d1 execute aleph-diary-07 --remote --file=./schema-auth.sql && wrangler d1 execute aleph-diary-07 --remote --file=./schema-study.sql",
     "test": "node --test",
     "setup:local": "node scripts/setup-local.mjs",
     "verify:auth": "node scripts/verify-auth.mjs"

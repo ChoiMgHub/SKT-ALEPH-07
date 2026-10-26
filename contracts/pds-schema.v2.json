@@ -105,6 +105,48 @@
         ],
         "additionalProperties": false
       }
+    },
+    "study": {
+      "type": "object",
+      "properties": {
+        "study": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "rule_change": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "rules": {
+          "type": "object"
+        },
+        "today": {
+          "type": "string",
+          "format": "date"
+        },
+        "summary": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "study",
+        "entries",
+        "rule_change",
+        "rules",
+        "today",
+        "summary"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
