@@ -2,3 +2,7 @@
 
 
 .review-selector{max-width:36rem;margin-bottom:12px}.stat-grid{margin-top:14px}.record-link{color:#216452;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}.record-link:focus-visible,.item:focus-visible{outline:3px solid #78b69a;outline-offset:3px}.item:focus{background:#eef9f1}#log-list,#completion-list{margin-top:12px}
+
+[hidden] { display: none !important; }
+.account-bar { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; margin-bottom:1rem; }
+.account-bar button { margin-left:auto; }

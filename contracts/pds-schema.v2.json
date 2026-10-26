@@ -70,6 +70,41 @@
     "evaluated_at": {
       "type": "string",
       "format": "date-time"
+    },
+    "imports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source_digest": {
+            "type": "string"
+          },
+          "counts_json": {
+            "type": "string"
+          },
+          "source_json": {
+            "type": "string"
+          },
+          "mappings_json": {
+            "type": "string"
+          },
+          "imported_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "source_digest",
+          "counts_json",
+          "source_json",
+          "mappings_json",
+          "imported_at"
+        ],
+        "additionalProperties": false
+      }
     }
   },
   "required": [

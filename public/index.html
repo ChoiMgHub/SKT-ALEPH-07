@@ -3,21 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="계획과 실제 실행을 기록하고 근거를 보며 돌아보는 공개 다이어리">
-  <title>플랜드씨 다이어리 · 계획과 실제</title>
+  <meta name="description" content="로그인한 계정의 계획과 실제 실행을 기록하고 돌아보는 다이어리">
+  <title>플랜두씨 다이어리 · 계획과 실제</title>
   <link rel="stylesheet" href="/style.css">
   <script src="/app.js" defer></script>
 </head>
 <body>
   <div class="shell">
     <header class="hero">
-      <div><p class="eyebrow">SKT ALEPH · CHAPTER 06</p><h1>플랜드씨 다이어리</h1><p class="subtitle">계획하고, 실제로 해 보고, 기록을 근거로 돌아보기</p></div>
+      <div><p class="eyebrow">SKT ALEPH · CHAPTER 07</p><h1>플랜두씨 다이어리</h1><p class="subtitle">계획하고, 실제로 해 보고, 기록을 근거로 돌아보기</p></div>
       <span class="hero-mark" aria-hidden="true">P<span>→</span>D<span>→</span>S</span>
     </header>
 
-    <aside class="notice" role="note"><strong>공개 안내</strong><span>지금은 로그인이 없어 링크를 아는 사람은 누구나 볼 수 있습니다. 남이 봐도 괜찮은 내용만 넣으세요. 링크를 아는 사람은 내용을 수정할 수도 있습니다.</span></aside>
+    <aside class="notice" role="note"><strong>내 계정의 다이어리</strong><span>가입·로그인 후 본인 자료를 이용합니다. 과제용 계정을 사용하고 민감한 개인정보는 기록하지 마세요.</span></aside>
     <div id="message" class="message" role="status" aria-live="polite" hidden></div>
 
+    <section id="auth-panel" class="section" aria-labelledby="auth-title">
+      <h2 id="auth-title">로그인</h2><p>내 계정의 계획과 실제 기록을 확인하세요.</p>
+      <div class="grid two">
+        <form id="login-form" class="panel"><h3>로그인하기</h3>
+          <label>아이디 <input name="username" required autocomplete="username" maxlength="32"></label>
+          <label>비밀번호 <input name="password" type="password" required autocomplete="current-password"></label>
+          <button class="primary" type="submit">로그인</button>
+        </form>
+        <form id="signup-form" class="panel"><h3>처음이라면 회원가입</h3>
+          <label>아이디 <input name="username" required autocomplete="username" minlength="3" maxlength="32" pattern="[a-zA-Z0-9][a-zA-Z0-9_-]{2,31}"></label>
+          <p class="hint">영문·숫자·밑줄·하이픈 3~32자. 영문 대소문자는 같은 아이디로 처리합니다.</p>
+          <label>비밀번호 <input name="password" type="password" required autocomplete="new-password" minlength="12"></label>
+          <p class="hint">12자 이상, UTF-8 기준 256바이트 이하. 다른 서비스에서 쓰는 비밀번호를 재사용하지 마세요.</p>
+          <button class="primary" type="submit">가입하기</button>
+        </form>
+      </div>
+    </section>
+    <div id="diary-panel" hidden>
+    <div class="panel account-bar"><strong id="account-name"></strong><span id="session-expiry" class="hint"></span><button id="logout" class="secondary" type="button">로그아웃</button></div>
     <nav class="steps" aria-label="화면 이동">
       <a href="#plans">01 계획</a><a href="#tasks">02 할 일</a><a href="#execution">03 실제</a><a href="#review">04 돌아보기</a>
     </nav>
@@ -30,7 +49,7 @@
             <input type="hidden" name="id">
             <input type="hidden" name="source_reflection_plan_id">
             <p id="source-reflection-note" class="hint" hidden></p>
-            <label>계획 이름 <input name="title" maxlength="120" required placeholder="예: 6장 과제 완성하기"></label>
+            <label>계획 이름 <input name="title" maxlength="120" required placeholder="예: 오늘 수업 복습하기"></label>
             <div class="fields"><label>시작일 <input name="start_date" type="date" required></label><label>종료일 <input name="end_date" type="date" required></label></div>
             <div class="fields"><label>우선순위 <select name="priority"><option>보통</option><option>높음</option><option>낮음</option></select></label><label>예상 시간(분) <input name="expected_minutes" type="number" min="0" max="1000000" required value="120"></label></div>
             <label>성공 기준 <textarea name="success_criteria" maxlength="1000" required placeholder="무엇이 되면 완료인가요?"></textarea></label>
@@ -75,9 +94,25 @@
         <form id="reflection-form" class="panel reflection"><h3>다음 계획으로 넘길 한 줄</h3><label>계획 <select name="plan_id" id="reflection-plan" required></select></label><label>돌아보고 정한 다음 행동 <input name="next_step" maxlength="500" placeholder="예: 예상 시간을 조금 더 넉넉하게 잡는다"></label><button class="primary" type="submit">한 줄 저장하기</button><div id="reflection-list" class="list"></div></form>
       </section>
 
-      <section id="export" class="section compact"><div><p class="eyebrow">DATA</p><h2>내보내기</h2><p>서버에 저장된 계획·이력·할 일·실행 기록·돌아보기를 JSON 파일 하나로 받습니다.</p></div><a class="primary link-button" href="/api/export" download="aleph-diary-export.json">전체 자료 파일로 받기</a></section>
+      <section id="account" class="section">
+        <div class="section-head"><div><p class="eyebrow">ACCOUNT</p><h2>내 계정과 이전 자료</h2></div></div>
+        <div class="grid two">
+          <form id="import-form" class="panel"><h3>과제 6 백업 가져오기</h3>
+            <p>과제 6에서 내보낸 JSON을 현재 로그인한 내 계정으로 가져옵니다. 원본 파일과 기록 번호 대응표도 내보내기에 보존합니다. 다른 사람의 백업은 가져오지 마세요.</p>
+            <label>백업 JSON 파일 <input id="import-file" type="file" accept=".json,application/json" required></label>
+            <p class="hint">파일 2MB 이하, 기록 합계 500건 이하. 같은 파일을 다시 선택해도 중복 생성하지 않습니다.</p>
+            <button class="primary" type="submit">내 계정으로 가져오기</button><div id="import-history" class="list"></div>
+          </form>
+          <div class="panel">
+            <form id="password-form"><h3>비밀번호 변경</h3><label>현재 비밀번호 <input name="current_password" type="password" required autocomplete="current-password"></label><label>새 비밀번호 <input name="new_password" type="password" required minlength="12" autocomplete="new-password"></label><p class="hint">변경하면 모든 기기의 로그인 상태가 종료됩니다.</p><button class="secondary" type="submit">비밀번호 변경</button></form>
+            <hr><form id="delete-account-form"><h3>계정 삭제</h3><p>계정과 연결된 계획·할 일·실행 기록·회고·이력·가져온 원본을 모두 삭제합니다. 복구할 수 없으므로 필요한 자료는 먼저 내보내세요.</p><label>본인 아이디 입력 <input name="confirm_username" required autocomplete="off"></label><button class="secondary" type="submit">계정과 내 자료 삭제</button></form>
+          </div>
+        </div>
+      </section>
+      <section id="export" class="section compact"><div><p class="eyebrow">DATA</p><h2>내보내기</h2><p>내 계정의 계획·이력·할 일·실행 기록·돌아보기·가져온 원본과 번호 대응표를 JSON 파일 하나로 받습니다. 비밀번호·세션 정보는 포함하지 않습니다.</p></div><a class="primary link-button" href="/api/export" download="aleph-diary-export.json">전체 자료 파일로 받기</a></section>
     </main>
-    <footer>플랜드씨 다이어리 · 계획 → 실제 → 돌아보기 · v2</footer>
+    </div>
+    <footer>플랜두씨 다이어리 · 계획 → 실제 → 돌아보기 · 인증과 계정별 자료 보호</footer>
   </div>
 </body>
 </html>

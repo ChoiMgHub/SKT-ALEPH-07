@@ -6,6 +6,8 @@ let reviewPlanId = null;
 let newPlanMode = false;
 let evidenceKind = null;
 let pendingLogRequestId = null;
+let sessionUser = null;
+let sessionExpiryTimer = null;
 
 function node(tag, className = '', content = '') {
   const result = document.createElement(tag);
@@ -31,9 +33,12 @@ function show(message, error = false) {
   const box = $('message'); box.textContent = message; box.classList.toggle('error', error); box.hidden = false;
 }
 async function api(path, options = {}) {
-  const response = await fetch(path, { ...options, headers: { 'content-type': 'application/json', ...(options.headers || {}) } });
+  const response = await fetch(path, { ...options, credentials: 'same-origin', headers: { 'content-type': 'application/json', 'x-requested-with': 'aleph-diary', ...(options.headers || {}) } });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || `요청 실패 (${response.status})`);
+  if (!response.ok) {
+    if (response.status === 401 && !path.startsWith('/api/auth/')) clearSessionView();
+    throw new Error(data.error || `요청 실패 (${response.status})`);
+  }
   return data;
 }
 async function refresh() {
@@ -330,5 +335,98 @@ reflectionForm.addEventListener('submit', async event => {
     '다음 계획을 위한 한 줄을 저장했습니다.');
 });
 
-refresh().catch(error => show(`서버 데이터를 읽지 못했습니다: ${error.message}`, true));
+bootstrapSession();
 
+
+function clearSessionView() {
+  clearTimeout(sessionExpiryTimer); sessionExpiryTimer = null;
+  sessionUser = null;
+  state = { plans: [], plan_revisions: [], tasks: [], execution_logs: [], reflections: [], task_completions: [], reflection_links: [], summary: {}, summaries: {} };
+  selectedPlanId = null; reviewPlanId = null; newPlanMode = false; evidenceKind = null; pendingLogRequestId = null;
+  $('diary-panel').hidden = true; $('auth-panel').hidden = false;
+  $('account-name').textContent = ''; $('session-expiry').textContent = '';
+  $('import-history').replaceChildren();
+  for (const form of document.querySelectorAll('form')) form.reset();
+  renderAll();
+}
+async function activateSession(data) {
+  clearSessionView();
+  sessionUser = data.user;
+  $('account-name').textContent = `${data.user.username} 님의 다이어리`;
+  $('session-expiry').textContent = `로그인 만료: ${dateText(data.expires_at)} (로그인부터 24시간)`;
+  await refresh();
+  const history = await api('/api/imports');
+  $('import-history').replaceChildren(...history.map(row => node('p', 'hint', `가져오기 ${dateText(row.imported_at)} · ${row.counts_json}`)));
+  $('auth-panel').hidden = true; $('diary-panel').hidden = false;
+  const remaining = Date.parse(data.expires_at) - Date.now();
+  if (remaining <= 0) { clearSessionView(); show('로그인이 만료됐습니다. 다시 로그인해 주세요.'); return; }
+  sessionExpiryTimer = setTimeout(() => { clearSessionView(); show('로그인이 만료됐습니다. 다시 로그인해 주세요.'); }, remaining);
+}
+async function bootstrapSession() {
+  try {
+    const response = await fetch('/api/auth/me', { credentials: 'same-origin', cache: 'no-store' });
+    if (response.status === 401) { clearSessionView(); return; }
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || '인증 서버를 확인해 주세요.');
+    await activateSession(data);
+  } catch (error) { clearSessionView(); show(error.message, true); }
+}
+$('login-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.currentTarget, submit = form.querySelector('button'); submit.disabled = true;
+  try {
+    const data = Object.fromEntries(new FormData(form));
+    const result = await api('/api/auth/login', { method: 'POST', body: JSON.stringify(data) });
+    form.reset(); await activateSession(result); show('로그인했습니다. 본인 계정의 자료만 표시합니다.');
+  } catch (error) { form.elements.namedItem('password').value = ''; show(error.message, true); }
+  finally { submit.disabled = false; }
+});
+$('signup-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.currentTarget, submit = form.querySelector('button'); submit.disabled = true;
+  try {
+    const data = Object.fromEntries(new FormData(form));
+    const result = await api('/api/auth/signup', { method: 'POST', body: JSON.stringify(data) });
+    form.reset(); $('login-form').elements.namedItem('username').value = result.user.username;
+    show('가입했습니다. 위 로그인 폼에서 로그인해 주세요.');
+    $('login-form').elements.namedItem('password').focus();
+  } catch (error) { form.elements.namedItem('password').value = ''; show(error.message, true); }
+  finally { submit.disabled = false; }
+});
+$('logout').addEventListener('click', async () => {
+  try { await api('/api/auth/logout', { method:'POST' }); clearSessionView(); show('로그아웃했습니다.'); }
+  catch (error) { show(error.message,true); }
+});
+$('password-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  try {
+    await api('/api/auth/password', {method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(form)))});
+    clearSessionView(); show('비밀번호가 변경됐습니다. 모든 기기에서 다시 로그인해 주세요.');
+  } catch (error) { show(error.message,true); }
+  finally { form.reset(); }
+});
+$('delete-account-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!confirm('계정과 연결된 모든 자료를 삭제합니다. 필요한 JSON을 먼저 내보냈나요? 삭제를 계속할까요?')) return;
+  try {
+    await api('/api/auth/account', {method:'DELETE',body:JSON.stringify(Object.fromEntries(new FormData(event.currentTarget)))});
+    clearSessionView(); show('계정과 연결된 자료를 삭제했습니다.');
+  } catch (error) { show(error.message,true); }
+});
+$('import-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const file = $('import-file').files[0];
+  if (!file) return;
+  if (file.size>2*1024*1024) {show('파일은 2MB 이하여야 합니다.',true);return;}
+  const submit = event.currentTarget.querySelector('button'); submit.disabled = true;
+  try {
+    const text = await file.text(); JSON.parse(text);
+    const result = await api('/api/import', {method:'POST',body:text});
+    await bootstrapSession();
+    show(result.duplicate ? '이미 가져온 파일입니다. 자료를 중복 생성하지 않았습니다.' : `내 계정으로 가져왔습니다. 계획 ${result.counts.plans}건 · 할 일 ${result.counts.tasks}건 · 실행 기록 ${result.counts.execution_logs}건`);
+    $('import-form').reset();
+  } catch (error) { show(error instanceof SyntaxError ? 'JSON 파일을 읽을 수 없습니다.' : error.message,true); }
+  finally { submit.disabled = false; }
+});
+window.addEventListener('pageshow', event => { if(event.persisted) { clearSessionView(); bootstrapSession(); } });

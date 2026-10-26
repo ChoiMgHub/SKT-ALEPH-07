@@ -26,9 +26,9 @@ async function screen(t) {
   w.Element.prototype.scrollIntoView = function() { this.setAttribute('data-scrolled','true'); };
   w.confirm = () => true;
   Object.defineProperty(w.crypto,'randomUUID',{value:randomUUID});
-  w.fetch = (path,options={})=>worker.fetch(new Request(new URL(path,w.location.href),options),env);
+  w.fetch = (path,options={})=>worker.fetch(new Request(new URL(path,w.location.href),{...options,headers:{...options.headers,cookie:env.TEST_COOKIE}}),env);
   w.eval(readFileSync(new URL('../public/app.js',import.meta.url),'utf8'));
-  await until(()=>d.querySelectorAll('#task-list article').length===5);
+  await until(()=>d.querySelectorAll('#task-list article').length===5 && !d.querySelector('#diary-panel').hidden);
   return {env,planId,taskIds,w,d};
 }
 function change(w,el,value) { el.value=value; el.dispatchEvent(new w.Event('change',{bubbles:true})); }

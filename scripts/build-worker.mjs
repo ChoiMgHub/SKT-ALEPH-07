@@ -16,10 +16,14 @@ const staticCode = `const STATIC_ASSETS = ${JSON.stringify(assets)};\n` +
   ` return new Response(asset.body, {headers:{'content-type':asset.type,'x-content-type-options':'nosniff',` +
   `'referrer-policy':'no-referrer','x-frame-options':'DENY',` +
   `'content-security-policy':"default-src 'self'; script-src 'self'; style-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'"}}); }\n`;
-const source = read('src/worker.js');
+const auth = read('src/auth.js').replace(/^export /gm, '');
+const importer = read('src/import.js').replace(/^import .*from '\.\/auth\.js';\n/gm, '').replace(/^export /gm, '');
+const source = read('src/worker.js').replace(/^import .*from '\.\/(auth|import)\.js';\n/gm, '');
 const original = "if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);";
 if (!source.includes(original)) throw new Error('Static asset hook was not found.');
-const output = staticCode + source.replace(original, "if (!url.pathname.startsWith('/api/')) return serveAsset(request);");
+const output = staticCode + auth + '\n' + importer + '\n' + source
+  .replace(original, "if (!url.pathname.startsWith('/api/')) return serveAsset(request);")
+  .replace("return env.ASSETS.fetch(new Request(new URL('/', url), request));", "return serveAsset(new Request(new URL('/', url), request));");
 mkdirSync(resolve(root, 'dist'), { recursive: true });
 writeFileSync(resolve(root, 'dist/worker.js'), output);
 console.log(`Built dist/worker.js (${Buffer.byteLength(output)} bytes)`);

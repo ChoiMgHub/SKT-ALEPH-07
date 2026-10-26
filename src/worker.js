@@ -1,3 +1,5 @@
+import { HttpError, authenticate, checkWriteRequest, signup, login, logout, changePassword, boundedText } from './auth.js';
+import { importBackup } from './import.js';
 const jsonHeaders = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' };
 const allowedPriority = new Set(['낮음', '보통', '높음']);
 const allowedStatus = new Set(['todo', 'doing', 'done', 'blocked']);
@@ -28,7 +30,7 @@ async function body(request) {
   if (!request.headers.get('content-type')?.includes('application/json')) throw new Error('JSON 요청이 필요합니다.');
   const contentLength = Number(request.headers.get('content-length') || 0);
   if (contentLength > 20000) throw new Error('입력 크기가 너무 큽니다.');
-  const text = await request.text();
+  const text = await boundedText(request, 20000);
   if (new TextEncoder().encode(text).length > 20000) throw new Error('입력 크기가 너무 큽니다.');
   const value = JSON.parse(text);
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('JSON 객체가 필요합니다.');
@@ -80,24 +82,31 @@ export function summarize(plans, tasks, logs, now = Date.now()) {
   return { ...summary, difference_minutes: summary.actual_minutes - summary.expected_minutes };
 }
 
-async function readState(db) {
+async function readState(db, userId) {
   const [plans, planRevisions, tasks, logs, reflections, completions, links] = await Promise.all([
-    db.prepare('SELECT * FROM plans ORDER BY created_at DESC, id ASC').all(),
-    db.prepare('SELECT * FROM plan_revisions ORDER BY recorded_at DESC, id ASC').all(),
-    db.prepare('SELECT * FROM tasks ORDER BY created_at DESC, id ASC').all(),
-    db.prepare('SELECT * FROM execution_logs ORDER BY started_at DESC, id ASC').all(),
-    db.prepare('SELECT * FROM reflections ORDER BY plan_id ASC').all(),
-    db.prepare('SELECT * FROM task_completions ORDER BY completed_at DESC, task_id ASC').all(),
-    db.prepare('SELECT * FROM reflection_links ORDER BY created_at DESC, target_plan_id ASC').all()
+    db.prepare('SELECT * FROM plans WHERE id IN (SELECT plan_id FROM plan_owners WHERE user_id=?) ORDER BY created_at DESC, id ASC').bind(userId).all(),
+    db.prepare('SELECT * FROM plan_revisions WHERE plan_id IN (SELECT plan_id FROM plan_owners WHERE user_id=?) ORDER BY recorded_at DESC, id ASC').bind(userId).all(),
+    db.prepare('SELECT * FROM tasks WHERE plan_id IN (SELECT plan_id FROM plan_owners WHERE user_id=?) ORDER BY created_at DESC, id ASC').bind(userId).all(),
+    db.prepare('SELECT * FROM execution_logs WHERE task_id IN (SELECT id FROM tasks WHERE plan_id IN (SELECT plan_id FROM plan_owners WHERE user_id=?)) ORDER BY started_at DESC, id ASC').bind(userId).all(),
+    db.prepare('SELECT * FROM reflections WHERE plan_id IN (SELECT plan_id FROM plan_owners WHERE user_id=?) ORDER BY plan_id ASC').bind(userId).all(),
+    db.prepare('SELECT * FROM task_completions WHERE task_id IN (SELECT id FROM tasks WHERE plan_id IN (SELECT plan_id FROM plan_owners WHERE user_id=?)) ORDER BY completed_at DESC, task_id ASC').bind(userId).all(),
+    db.prepare('SELECT * FROM reflection_links WHERE target_plan_id IN (SELECT plan_id FROM plan_owners WHERE user_id=?) AND source_plan_id IN (SELECT plan_id FROM plan_owners WHERE user_id=?) ORDER BY created_at DESC, target_plan_id ASC').bind(userId, userId).all()
   ]);
   const now = Date.now();
   const summary = summarize(plans.results, tasks.results, logs.results, now);
   const summaries = Object.fromEntries(plans.results.map(p => [p.id,
     summarize([p], tasks.results.filter(t => t.plan_id === p.id), logs.results, now)]));
   return { plans: plans.results, plan_revisions: planRevisions.results, tasks: tasks.results,
-    execution_logs: logs.results, reflections: reflections.results,
+    execution_logs: logs.results.map(x => ({ ...x, request_id: x.request_id.startsWith(`${userId}:`) ? x.request_id.slice(userId.length + 1) : x.request_id })), reflections: reflections.results,
     task_completions: completions.results, reflection_links: links.results,
     summary, summaries, evaluated_at: new Date(now).toISOString() };
+}
+
+async function ownedPlan(db, id, userId) {
+  return db.prepare('SELECT p.* FROM plans p JOIN plan_owners o ON o.plan_id=p.id WHERE p.id=? AND o.user_id=?').bind(id, userId).first();
+}
+async function ownedTask(db, id, userId) {
+  return db.prepare('SELECT t.* FROM tasks t JOIN plan_owners o ON o.plan_id=t.plan_id WHERE t.id=? AND o.user_id=? AND t.deleted_at IS NULL').bind(id, userId).first();
 }
 
 async function handleApi(request, env, path) {
@@ -107,11 +116,45 @@ async function handleApi(request, env, path) {
 
   if (path === '/api/health' && method === 'GET') {
     await db.prepare('SELECT 1').first();
-    return response({ ok: true, database: 'connected', implementation_version: 'pds-v2-2026-10-22' });
+    return response({ ok: true, database: 'connected', implementation_version: 'task07-auth-v1' });
   }
-  if (path === '/api/state' && method === 'GET') return response(await readState(db));
+  if (!['GET', 'HEAD'].includes(method)) checkWriteRequest(request);
+  if (path === '/api/auth/signup' && method === 'POST') return response(await signup(request, env, await body(request)), 201);
+  if (path === '/api/auth/login' && method === 'POST') {
+    const result = await login(request, env, await body(request));
+    return response(result.data, 200, { 'set-cookie': result.cookie });
+  }
+  if (path === '/api/auth/logout' && method === 'POST') return response({ logged_out: true }, 200, { 'set-cookie': await logout(request, env) });
+  const user = await authenticate(request, env);
+  if (!user) return fail('로그인이 필요합니다.', 401);
+  const userId = user.id;
+  if (path === '/api/auth/me' && method === 'GET') return response({ user: { id: userId, username: user.username }, expires_at: user.expires_at });
+  if (path === '/api/auth/password' && method === 'POST') return response({ changed: true, login_required: true }, 200,
+    { 'set-cookie': await changePassword(request, env, user, await body(request)) });
+  if (path === '/api/auth/account' && method === 'DELETE') {
+    const input = await body(request);
+    if (input.confirm_username !== user.username) return fail('삭제할 본인의 아이디를 입력해 주세요.');
+    const planScope = 'SELECT plan_id FROM plan_owners WHERE user_id=?';
+    const taskScope = `SELECT id FROM tasks WHERE plan_id IN (${planScope})`;
+    await db.batch([
+      db.prepare(`DELETE FROM execution_logs WHERE task_id IN (${taskScope})`).bind(userId),
+      db.prepare(`DELETE FROM task_completions WHERE task_id IN (${taskScope})`).bind(userId),
+      db.prepare(`DELETE FROM tasks WHERE plan_id IN (${planScope})`).bind(userId),
+      db.prepare(`DELETE FROM plan_revisions WHERE plan_id IN (${planScope})`).bind(userId),
+      db.prepare(`DELETE FROM reflections WHERE plan_id IN (${planScope})`).bind(userId),
+      db.prepare(`DELETE FROM reflection_links WHERE target_plan_id IN (${planScope}) OR source_plan_id IN (${planScope})`).bind(userId, userId),
+      db.prepare(`DELETE FROM plans WHERE id IN (${planScope})`).bind(userId),
+      db.prepare('DELETE FROM imports WHERE user_id=?').bind(userId),
+      db.prepare('DELETE FROM users WHERE id=?').bind(userId)
+    ]);
+    return response({ deleted: true }, 200, { 'set-cookie': await logout(request, env) });
+  }
+  if (path === '/api/import' && method === 'POST') return response(await importBackup(request, db, userId), 201);
+  if (path === '/api/imports' && method === 'GET') return response((await db.prepare('SELECT id, source_digest, counts_json, imported_at FROM imports WHERE user_id=? ORDER BY imported_at').bind(userId).all()).results);
+  if (path === '/api/state' && method === 'GET') return response(await readState(db, userId));
   if (path === '/api/export' && method === 'GET') {
-    const data = { schema_version: 'pds-schema-v2', exported_at: stamp(), ...await readState(db) };
+    const data = { schema_version: 'pds-schema-v2', exported_at: stamp(), ...await readState(db, userId) };
+    data.imports = (await db.prepare('SELECT id, source_digest, counts_json, source_json, mappings_json, imported_at FROM imports WHERE user_id=? ORDER BY imported_at').bind(userId).all()).results;
     return response(data, 200, { 'content-disposition': 'attachment; filename="aleph-diary-export.json"' });
   }
 
@@ -120,21 +163,26 @@ async function handleApi(request, env, path) {
     const data = planInput(input);
     let source = null;
     if (input.source_reflection_plan_id) {
+      if (!await ownedPlan(db, input.source_reflection_plan_id, userId)) return fail('자료를 찾을 수 없습니다.', 404);
       source = await db.prepare('SELECT * FROM reflections WHERE plan_id=?').bind(input.source_reflection_plan_id).first();
       if (!source?.next_step.trim()) return fail('먼저 다음 계획에 넘길 한 줄을 저장해 주세요.');
     }
     const id = crypto.randomUUID(), now = stamp();
     const inserts = [db.prepare('INSERT INTO plans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
       .bind(id, data.title, data.start_date, data.end_date, data.priority, data.success_criteria,
-        data.expected_minutes, now, now)];
+        data.expected_minutes, now, now), db.prepare('INSERT INTO plan_owners VALUES (?, ?)').bind(id, userId)];
     if (source) inserts.push(db.prepare('INSERT INTO reflection_links VALUES (?, ?, ?, ?)')
       .bind(id, source.plan_id, source.next_step, now));
     await db.batch(inserts);
     return response({ id }, 201);
   }
   const planMatch = path.match(/^\/api\/plans\/([0-9a-f-]+)$/);
+  if (planMatch && method === 'GET') {
+    const row = await ownedPlan(db, planMatch[1], userId);
+    return row ? response(row) : fail('자료를 찾을 수 없습니다.', 404);
+  }
   if (planMatch && method === 'PATCH') {
-    const old = await db.prepare('SELECT * FROM plans WHERE id = ?').bind(planMatch[1]).first();
+    const old = await ownedPlan(db, planMatch[1], userId);
     if (!old) return fail('계획을 찾을 수 없습니다.', 404);
     const data = planInput({ ...old, ...await body(request) });
     const changed = ['title','start_date','end_date','priority','success_criteria','expected_minutes'].some(k => old[k] !== data[k]);
@@ -153,8 +201,8 @@ async function handleApi(request, env, path) {
 
   if (path === '/api/tasks' && method === 'POST') {
     const input = await body(request);
-    const plan = await db.prepare('SELECT id FROM plans WHERE id = ?').bind(input.plan_id).first();
-    if (!plan) return fail('먼저 계획을 저장해 주세요.');
+    const plan = await ownedPlan(db, input.plan_id, userId);
+    if (!plan) return fail('자료를 찾을 수 없습니다.', 404);
     const data = taskInput(input), id = crypto.randomUUID(), now = stamp();
     const inserts = [db.prepare('INSERT INTO tasks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?)')
       .bind(id, plan.id, data.title, data.due_at, data.priority, data.category, data.expected_minutes,
@@ -165,8 +213,12 @@ async function handleApi(request, env, path) {
     return response({ id }, 201);
   }
   const taskMatch = path.match(/^\/api\/tasks\/([0-9a-f-]+)$/);
+  if (taskMatch && method === 'GET') {
+    const row = await ownedTask(db, taskMatch[1], userId);
+    return row ? response(row) : fail('자료를 찾을 수 없습니다.', 404);
+  }
   if (taskMatch && (method === 'PATCH' || method === 'DELETE')) {
-    const old = await db.prepare('SELECT * FROM tasks WHERE id = ? AND deleted_at IS NULL').bind(taskMatch[1]).first();
+    const old = await ownedTask(db, taskMatch[1], userId);
     if (!old) return fail('할 일을 찾을 수 없습니다.', 404);
     if (method === 'DELETE') {
       await db.prepare('UPDATE tasks SET deleted_at=?, updated_at=? WHERE id=? AND deleted_at IS NULL')
@@ -175,7 +227,7 @@ async function handleApi(request, env, path) {
     }
     const input = await body(request);
     const planId = input.plan_id ?? old.plan_id;
-    if (!await db.prepare('SELECT id FROM plans WHERE id=?').bind(planId).first()) return fail('연결할 계획을 찾을 수 없습니다.');
+    if (!await ownedPlan(db, planId, userId)) return fail('자료를 찾을 수 없습니다.', 404);
     const data = taskInput({ ...old, ...input });
     const now = stamp();
     const statements = [db.prepare('UPDATE tasks SET plan_id=?, title=?, due_at=?, priority=?, category=?, expected_minutes=?, status=?, blocked_reason=?, updated_at=? WHERE id=? AND deleted_at IS NULL')
@@ -190,12 +242,13 @@ async function handleApi(request, env, path) {
 
   if (path === '/api/logs' && method === 'POST') {
     const input = await body(request);
-    const task = await db.prepare('SELECT id FROM tasks WHERE id=? AND deleted_at IS NULL').bind(input.task_id).first();
-    if (!task) return fail('기록을 연결할 할 일을 찾을 수 없습니다.');
+    const task = await ownedTask(db, input.task_id, userId);
+    if (!task) return fail('자료를 찾을 수 없습니다.', 404);
     const start = input.started_at, end = input.ended_at;
     if (!isTime(start) || !isTime(end) || Date.parse(end) < Date.parse(start)) return fail('실행 시작과 종료 시간을 확인해 주세요.');
-    const requestId = str(input.request_id, 80);
-    if (!requestId) return fail('기록 요청 번호가 필요합니다.');
+    const rawRequestId = str(input.request_id, 80);
+    if (!rawRequestId) return fail('기록 요청 번호가 필요합니다.');
+    const requestId = `${userId}:${rawRequestId}`;
     const existing = await db.prepare('SELECT id FROM execution_logs WHERE request_id=?').bind(requestId).first();
     if (existing) return response({ id: existing.id, duplicate: true });
     const actual = Math.round((Date.parse(end) - Date.parse(start)) / 60000);
@@ -213,7 +266,7 @@ async function handleApi(request, env, path) {
   }
   const reflectionMatch = path.match(/^\/api\/reflections\/([0-9a-f-]+)$/);
   if (reflectionMatch && method === 'PUT') {
-    const plan = await db.prepare('SELECT id FROM plans WHERE id=?').bind(reflectionMatch[1]).first();
+    const plan = await ownedPlan(db, reflectionMatch[1], userId);
     if (!plan) return fail('계획을 찾을 수 없습니다.', 404);
     const input = await body(request), next = str(input.next_step, 500);
     await db.prepare('INSERT INTO reflections VALUES (?, ?, ?) ON CONFLICT(plan_id) DO UPDATE SET next_step=excluded.next_step, updated_at=excluded.updated_at')
@@ -226,11 +279,18 @@ async function handleApi(request, env, path) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);
-    try { return await handleApi(request, env, url.pathname); }
+    try {
+      if (url.pathname === '/diary' || url.pathname.startsWith('/diary/')) {
+        if (!env.DB || !await authenticate(request, env)) return Response.redirect(new URL('/?login=required', url), 303);
+        return env.ASSETS.fetch(new Request(new URL('/', url), request));
+      }
+      if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);
+      return await handleApi(request, env, url.pathname);
+    }
     catch (error) {
+      if (error instanceof HttpError) return fail(error.message, error.status);
       if (error instanceof SyntaxError) return fail('JSON 내용을 읽을 수 없습니다.');
-      if (error.message && !/D1|SQL|database|constraint/i.test(error.message)) return fail(error.message);
+      if (error.message && !/D1|SQL|database|constraint|password|pepper|token|secret/i.test(error.message)) return fail(error.message);
       console.error('API storage error');
       return fail('저장 중 문제가 생겼습니다. 다시 시도해 주세요.', 500);
     }
